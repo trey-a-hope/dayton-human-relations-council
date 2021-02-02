@@ -1,8 +1,5 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dayton_human_relations_council/complaint_form/complaint_form_bloc.dart';
-import 'package:dayton_human_relations_council/service_locator.dart';
-import 'package:dayton_human_relations_council/services/modal_service.dart';
-import 'package:dayton_human_relations_council/services/validation_service.dart';
+import 'package:dayton_human_relations_council/constants.dart';
 import 'package:dayton_human_relations_council/widgets/custom_button.dart';
 import 'package:dayton_human_relations_council/widgets/custom_spinner.dart';
 import 'package:flutter/material.dart';
@@ -15,15 +12,24 @@ class ComplaintFormPage extends StatefulWidget {
 }
 
 class _ComplaintFormPageState extends State<ComplaintFormPage> {
-  final TextEditingController _firstNameController = TextEditingController();
-  final TextEditingController _lastNameController = TextEditingController();
-
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final GlobalKey<FormBuilderState> _formKey = GlobalKey<FormBuilderState>();
+
+  Map<String, FocusNode> _focusNodes;
 
   @override
   void initState() {
     super.initState();
+
+    _focusNodes = {
+      'first_name': FocusNode(),
+      'last_name': FocusNode(),
+      'organization_name': FocusNode(),
+      'street_address': FocusNode(),
+      'city': FocusNode(),
+      'state': FocusNode(),
+      'zip': FocusNode(),
+    };
   }
 
   void submitForm() async {
@@ -42,12 +48,9 @@ class _ComplaintFormPageState extends State<ComplaintFormPage> {
 
     Map<String, dynamic> formData = formBuilderState.value;
 
-    final String firstName = formData['first_name'];
-    final String lastName = formData['last_name'];
-
-    print('Hello, $firstName $lastName');
-
-    //TODO: Submit the form.
+    context.read<ComplaintFormBloc>().add(
+          SubmitComplaintFormEvent(formData: formData),
+        );
   }
 
   @override
@@ -95,6 +98,11 @@ class _ComplaintFormPageState extends State<ComplaintFormPage> {
                   Padding(
                     padding: EdgeInsets.all(20),
                     child: FormBuilderTextField(
+                      onSubmitted: (value) {
+                        FocusScope.of(context)
+                            .requestFocus(_focusNodes['last_name']);
+                      },
+                      focusNode: _focusNodes['first_name'],
                       name: 'first_name',
                       decoration: InputDecoration(
                         labelText: 'First Name',
@@ -114,6 +122,11 @@ class _ComplaintFormPageState extends State<ComplaintFormPage> {
                   Padding(
                     padding: EdgeInsets.all(20),
                     child: FormBuilderTextField(
+                      onSubmitted: (value) {
+                        FocusScope.of(context)
+                            .requestFocus(_focusNodes['organization_name']);
+                      },
+                      focusNode: _focusNodes['last_name'],
                       name: 'last_name',
                       decoration: InputDecoration(
                         labelText: 'Last Name',
@@ -126,6 +139,130 @@ class _ComplaintFormPageState extends State<ComplaintFormPage> {
                         ],
                       ),
                       keyboardType: TextInputType.name,
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(20),
+                    child: Text(
+                      '-- or --',
+                      style: Theme.of(context).textTheme.bodyText1,
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(20),
+                    child: FormBuilderTextField(
+                      onSubmitted: (value) {
+                        FocusScope.of(context)
+                            .requestFocus(_focusNodes['street_address']);
+                      },
+                      focusNode: _focusNodes['organization_name'],
+                      name: 'organization_name',
+                      decoration: InputDecoration(
+                        labelText: 'Organization Name',
+                      ),
+                      onChanged: (value) {},
+                      // valueTransformer: (text) => num.tryParse(text),
+                      validator: FormBuilderValidators.compose(
+                        [
+                          FormBuilderValidators.required(context),
+                        ],
+                      ),
+                      keyboardType: TextInputType.name,
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(20),
+                    child: FormBuilderTextField(
+                      onSubmitted: (value) {
+                        FocusScope.of(context)
+                            .requestFocus(_focusNodes['city']);
+                      },
+                      focusNode: _focusNodes['street_address'],
+                      name: 'street_address',
+                      decoration: InputDecoration(
+                        labelText: 'Street Address',
+                      ),
+                      onChanged: (value) {},
+                      // valueTransformer: (text) => num.tryParse(text),
+                      validator: FormBuilderValidators.compose(
+                        [
+                          FormBuilderValidators.required(context),
+                        ],
+                      ),
+                      keyboardType: TextInputType.name,
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(20),
+                    child: FormBuilderTextField(
+                      onSubmitted: (value) {
+                        FocusScope.of(context)
+                            .requestFocus(_focusNodes['state']);
+                      },
+                      focusNode: _focusNodes['city'],
+                      name: 'city',
+                      decoration: InputDecoration(
+                        labelText: 'City',
+                      ),
+                      onChanged: (value) {},
+                      // valueTransformer: (text) => num.tryParse(text),
+                      validator: FormBuilderValidators.compose(
+                        [
+                          FormBuilderValidators.required(context),
+                        ],
+                      ),
+                      keyboardType: TextInputType.name,
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(20),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: FormBuilderDropdown(
+                            onChanged: (state) {
+                              FocusScope.of(context)
+                                  .requestFocus(_focusNodes['zip']);
+                            },
+                            name: 'state',
+                            decoration: InputDecoration(
+                              labelText: 'State',
+                            ),
+                            // initialValue: 'Male',
+                            allowClear: true,
+                            hint: Text(''),
+                            initialValue: STATES_DROPDOWN_DATA[0]['abbreviation'],
+                            validator: FormBuilderValidators.compose(
+                                [FormBuilderValidators.required(context)]),
+                            items: STATES_DROPDOWN_DATA
+                                .map((state) => DropdownMenuItem(
+                                      value: state['abbreviation'],
+                                      child: Text('${state['abbreviation']}'),
+                                    ))
+                                .toList(),
+                          ),
+                        ),
+                        SizedBox(width: 20),
+                        Expanded(
+                          child: FormBuilderTextField(
+                            focusNode: _focusNodes['zip'],
+                            name: 'zip',
+                            decoration: InputDecoration(
+                              labelText: 'Zip',
+                            ),
+                            onChanged: (value) {},
+                            // valueTransformer: (text) => num.tryParse(text),
+                            validator: FormBuilderValidators.compose(
+                              [
+                                FormBuilderValidators.required(context),
+                                FormBuilderValidators.maxLength(context, 5),
+                                FormBuilderValidators.minLength(context, 5),
+                              ],
+                            ),
+                            keyboardType: TextInputType.number,
+                          ),
+                        )
+                      ],
                     ),
                   ),
                   Padding(

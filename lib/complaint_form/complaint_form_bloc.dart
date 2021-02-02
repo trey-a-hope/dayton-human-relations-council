@@ -14,8 +14,20 @@ class ComplaintFormBloc extends Bloc<ComplaintFormEvent, ComplaintFormState> {
   Stream<ComplaintFormState> mapEventToState(
     ComplaintFormEvent event,
   ) async* {
-    if(event is SubmitComplaintFormEvent){
+    if (event is SubmitComplaintFormEvent) {
+      final Map<String, dynamic> formData = event.formData;
 
+      final String firstName = formData['first_name'];
+      final String lastName = formData['last_name'];
+      final String organizationName = formData['organization_name'];
+      final String streetAddress = formData['street_address'];
+      final String city = formData['city'];
+      final String state = formData['state'];
+      final String zip = formData['zip'];
+
+      print(formData);
+
+      //TODO: Submit the form.
     }
   }
 }

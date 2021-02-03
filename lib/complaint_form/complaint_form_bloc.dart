@@ -24,6 +24,7 @@ class ComplaintFormBloc extends Bloc<ComplaintFormEvent, ComplaintFormState> {
       final String city = formData['city'];
       final String state = formData['state'];
       final String zip = formData['zip'];
+      final String phone = formData['phone'];
 
       print(formData);
 

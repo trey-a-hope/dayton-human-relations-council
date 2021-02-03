@@ -3,6 +3,7 @@ import 'package:dayton_human_relations_council/constants.dart';
 import 'package:dayton_human_relations_council/widgets/custom_button.dart';
 import 'package:dayton_human_relations_council/widgets/custom_spinner.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 
@@ -14,6 +15,7 @@ class ComplaintFormPage extends StatefulWidget {
 class _ComplaintFormPageState extends State<ComplaintFormPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final GlobalKey<FormBuilderState> _formKey = GlobalKey<FormBuilderState>();
+  final _mobileFormatter = NumberTextInputFormatter();
 
   Map<String, FocusNode> _focusNodes;
 
@@ -29,6 +31,7 @@ class _ComplaintFormPageState extends State<ComplaintFormPage> {
       'city': FocusNode(),
       'state': FocusNode(),
       'zip': FocusNode(),
+      'phone': FocusNode(),
     };
   }
 
@@ -231,7 +234,8 @@ class _ComplaintFormPageState extends State<ComplaintFormPage> {
                             // initialValue: 'Male',
                             allowClear: true,
                             hint: Text(''),
-                            initialValue: STATES_DROPDOWN_DATA[0]['abbreviation'],
+                            initialValue: STATES_DROPDOWN_DATA[0]
+                                ['abbreviation'],
                             validator: FormBuilderValidators.compose(
                                 [FormBuilderValidators.required(context)]),
                             items: STATES_DROPDOWN_DATA
@@ -263,6 +267,33 @@ class _ComplaintFormPageState extends State<ComplaintFormPage> {
                           ),
                         )
                       ],
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(20),
+                    child: FormBuilderTextField(
+                      onSubmitted: (value) {
+                        FocusScope.of(context)
+                            .requestFocus(_focusNodes['email']);
+                      },
+                      focusNode: _focusNodes['phone'],
+                      name: 'phone',
+                      decoration: InputDecoration(
+                        labelText: 'Phone',
+                      ),
+                      onChanged: (value) {},
+                      // valueTransformer: (text) => num.tryParse(text),
+                      maxLength: 10,
+                      inputFormatters: [
+                        _mobileFormatter,
+                        FilteringTextInputFormatter.digitsOnly,
+                      ],
+                      validator: FormBuilderValidators.compose(
+                        [
+                          FormBuilderValidators.required(context),
+                        ],
+                      ),
+                      keyboardType: TextInputType.phone,
                     ),
                   ),
                   Padding(
@@ -305,6 +336,32 @@ class _ComplaintFormPageState extends State<ComplaintFormPage> {
         text,
         style: Theme.of(context).textTheme.headline6,
       ),
+    );
+  }
+}
+
+class NumberTextInputFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(
+      TextEditingValue oldValue, TextEditingValue newValue) {
+    final int newTextLength = newValue.text.length;
+    int selectionIndex = newValue.selection.end;
+    int usedSubstringIndex = 0;
+    final StringBuffer newText = new StringBuffer();
+    if (newTextLength >= 1) {
+      newText.write('+');
+      if (newValue.selection.end >= 1) selectionIndex++;
+    }
+    if (newTextLength >= 3) {
+      newText.write(newValue.text.substring(0, usedSubstringIndex = 2) + ' ');
+      if (newValue.selection.end >= 2) selectionIndex += 1;
+    }
+    // Dump the rest.
+    if (newTextLength >= usedSubstringIndex)
+      newText.write(newValue.text.substring(usedSubstringIndex));
+    return new TextEditingValue(
+      text: newText.toString(),
+      selection: new TextSelection.collapsed(offset: selectionIndex),
     );
   }
 }

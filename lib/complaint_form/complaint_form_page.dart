@@ -19,23 +19,54 @@ class _ComplaintFormPageState extends State<ComplaintFormPage> {
 
   Map<String, FocusNode> _focusNodes;
 
+  Map<String, dynamic> initialValues = {
+    COMPLAINT_FIRST_NAME: null,
+    COMPLAINT_LAST_NAME: null,
+    COMPLAINT_ORGANIZATION_NAME: null,
+    COMPLAINT_STREET_ADDRESS: null,
+    COMPLAINT_CITY: null,
+    COMPLAINT_STATE: null,
+    COMPLAINT_ZIP: null,
+    COMPLAINT_PHONE: null,
+    COMPLAINT_EMAIL: null,
+    COMPLAINT_PREFERRED_CONTACT: null,
+  };
+
   @override
   void initState() {
     super.initState();
 
     _focusNodes = {
-      'first_name': FocusNode(),
-      'last_name': FocusNode(),
-      'organization_name': FocusNode(),
-      'street_address': FocusNode(),
-      'city': FocusNode(),
-      'state': FocusNode(),
-      'zip': FocusNode(),
-      'phone': FocusNode(),
+      COMPLAINT_FIRST_NAME: FocusNode(),
+      COMPLAINT_LAST_NAME: FocusNode(),
+      COMPLAINT_ORGANIZATION_NAME: FocusNode(),
+      COMPLAINT_STREET_ADDRESS: FocusNode(),
+      COMPLAINT_CITY: FocusNode(),
+      COMPLAINT_STATE: FocusNode(),
+      COMPLAINT_ZIP: FocusNode(),
+      COMPLAINT_PHONE: FocusNode(),
+      COMPLAINT_EMAIL: FocusNode(),
+      COMPLAINT_PREFERRED_CONTACT: FocusNode(),
+    };
+  }
+
+  void fillFormWithDummyData() {
+    initialValues = {
+      COMPLAINT_FIRST_NAME: 'Trey',
+      COMPLAINT_LAST_NAME: 'Hope',
+      COMPLAINT_ORGANIZATION_NAME: 'Alpha Phi Alpha',
+      COMPLAINT_STREET_ADDRESS: '5 Patrick Street',
+      COMPLAINT_CITY: 'Trotwood',
+      COMPLAINT_ZIP: '45426',
+      COMPLAINT_PHONE: '9372705527',
+      COMPLAINT_EMAIL: 'trey.a.hope@gmail.com',
+      COMPLAINT_PREFERRED_CONTACT: 'Phone',
     };
   }
 
   void submitForm() async {
+    _formKey.currentState.save();
+
     final FormBuilderState formBuilderState = _formKey.currentState;
 
     if (!formBuilderState.saveAndValidate()) return;
@@ -47,7 +78,7 @@ class _ComplaintFormPageState extends State<ComplaintFormPage> {
     //         message: 'Are you sure?');
 
     // if (!confirm) return;
-    //todo: uncomment this.
+    //todo: uncomment this in production.
 
     Map<String, dynamic> formData = formBuilderState.value;
 
@@ -58,6 +89,8 @@ class _ComplaintFormPageState extends State<ComplaintFormPage> {
 
   @override
   Widget build(BuildContext context) {
+    fillFormWithDummyData(); //todo: delete this in production.
+
     return BlocConsumer<ComplaintFormBloc, ComplaintFormState>(
       builder: (context, state) {
         if (state is ComplaintFormLoadingState) {
@@ -73,239 +106,311 @@ class _ComplaintFormPageState extends State<ComplaintFormPage> {
             appBar: AppBar(
               title: Text('Dayton Human Relations Council'),
               backgroundColor: Colors.brown,
+              actions: [
+                IconButton(
+                  icon: Icon(Icons.filter_list),
+                  onPressed: () {
+                    submitForm();
+                  },
+                )
+              ],
             ),
             body: FormBuilder(
               key: _formKey,
-              child: ListView(
-                children: [
-                  biggerTextWidget(
-                      text: 'Civil Rights Discrimination Complaint Form'),
-                  generalTextWidget(
-                      text:
-                          'The City of Dayton Human Relations Council accepts complaints of unlawful discrimination in housing, employment, credit transactions, and public accommodations. If you feel that you have been discriminated against in one of these areas based on one or more of the protected classes listed below, you may be eligible to file a complaint against the person or organization that discriminated against you.'),
-                  generalTextWidget(
-                      text:
-                          'If you believe that you have been the victim of discrimination, you can download and fill this complaint form or file a complaint in person at:'),
-                  generalTextWidget(
-                      text: 'The Human Relations Council\n' +
-                          '371 West Second Street, Suite 100\n' +
-                          'Dayton, Ohio 45402'),
-                  generalTextWidget(
-                      text:
-                          'You can also fill out the online form below and a member of our Civil Rights team will contact you as soon as possible.'),
-                  biggerTextWidget(
-                      text: 'Complaint Information (Your Information)'),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(20),
-                    child: FormBuilderTextField(
-                      onSubmitted: (value) {
-                        FocusScope.of(context)
-                            .requestFocus(_focusNodes['last_name']);
-                      },
-                      focusNode: _focusNodes['first_name'],
-                      name: 'first_name',
-                      decoration: InputDecoration(
-                        labelText: 'First Name',
-                      ),
-                      onChanged: (value) {},
-                      // valueTransformer: (text) => num.tryParse(text),
-                      validator: FormBuilderValidators.compose(
-                        [
-                          FormBuilderValidators.required(context),
-                          // FormBuilderValidators.numeric(context),
-                          // FormBuilderValidators.max(context, 70),
-                        ],
-                      ),
-                      keyboardType: TextInputType.name,
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    biggerTextWidget(
+                        text: 'Civil Rights Discrimination Complaint Form'),
+                    generalTextWidget(
+                        text:
+                            'The City of Dayton Human Relations Council accepts complaints of unlawful discrimination in housing, employment, credit transactions, and public accommodations. If you feel that you have been discriminated against in one of these areas based on one or more of the protected classes listed below, you may be eligible to file a complaint against the person or organization that discriminated against you.'),
+                    generalTextWidget(
+                        text:
+                            'If you believe that you have been the victim of discrimination, you can download and fill this complaint form or file a complaint in person at:'),
+                    generalTextWidget(
+                        text: 'The Human Relations Council\n' +
+                            '371 West Second Street, Suite 100\n' +
+                            'Dayton, Ohio 45402'),
+                    generalTextWidget(
+                        text:
+                            'You can also fill out the online form below and a member of our Civil Rights team will contact you as soon as possible.'),
+                    biggerTextWidget(
+                        text: 'Complaint Information (Your Information)'),
+                    SizedBox(
+                      height: 20,
                     ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(20),
-                    child: FormBuilderTextField(
-                      onSubmitted: (value) {
-                        FocusScope.of(context)
-                            .requestFocus(_focusNodes['organization_name']);
-                      },
-                      focusNode: _focusNodes['last_name'],
-                      name: 'last_name',
-                      decoration: InputDecoration(
-                        labelText: 'Last Name',
+                    Padding(
+                      padding: const EdgeInsets.all(20),
+                      child: FormBuilderTextField(
+                        onSubmitted: (value) {
+                          FocusScope.of(context)
+                              .requestFocus(_focusNodes[COMPLAINT_LAST_NAME]);
+                        },
+                        initialValue: initialValues[COMPLAINT_FIRST_NAME],
+                        focusNode: _focusNodes[COMPLAINT_FIRST_NAME],
+                        name: COMPLAINT_FIRST_NAME,
+                        decoration: InputDecoration(
+                          labelText: 'First Name',
+                        ),
+                        onChanged: (value) {},
+                        validator: FormBuilderValidators.compose(
+                          [
+                            FormBuilderValidators.required(context),
+                          ],
+                        ),
+                        keyboardType: TextInputType.name,
                       ),
-                      onChanged: (value) {},
-                      // valueTransformer: (text) => num.tryParse(text),
-                      validator: FormBuilderValidators.compose(
-                        [
-                          FormBuilderValidators.required(context),
-                        ],
-                      ),
-                      keyboardType: TextInputType.name,
                     ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(20),
-                    child: Text(
-                      '-- or --',
-                      style: Theme.of(context).textTheme.bodyText1,
+                    Padding(
+                      padding: const EdgeInsets.all(20),
+                      child: FormBuilderTextField(
+                        onSubmitted: (value) {
+                          FocusScope.of(context).requestFocus(
+                              _focusNodes[COMPLAINT_ORGANIZATION_NAME]);
+                        },
+                        onEditingComplete: () {
+                          //_formKey.currentState.save();
+                        },
+                        initialValue: initialValues[COMPLAINT_LAST_NAME],
+                        focusNode: _focusNodes[COMPLAINT_LAST_NAME],
+                        name: COMPLAINT_LAST_NAME,
+                        decoration: InputDecoration(
+                          labelText: 'Last Name',
+                        ),
+                        onChanged: (value) {},
+                        validator: FormBuilderValidators.compose(
+                          [
+                            FormBuilderValidators.required(context),
+                          ],
+                        ),
+                        keyboardType: TextInputType.name,
+                      ),
                     ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(20),
-                    child: FormBuilderTextField(
-                      onSubmitted: (value) {
-                        FocusScope.of(context)
-                            .requestFocus(_focusNodes['street_address']);
-                      },
-                      focusNode: _focusNodes['organization_name'],
-                      name: 'organization_name',
-                      decoration: InputDecoration(
-                        labelText: 'Organization Name',
+                    Padding(
+                      padding: const EdgeInsets.all(20),
+                      child: Text(
+                        '-- or --',
+                        style: Theme.of(context).textTheme.bodyText1,
                       ),
-                      onChanged: (value) {},
-                      // valueTransformer: (text) => num.tryParse(text),
-                      validator: FormBuilderValidators.compose(
-                        [
-                          FormBuilderValidators.required(context),
-                        ],
-                      ),
-                      keyboardType: TextInputType.name,
                     ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(20),
-                    child: FormBuilderTextField(
-                      onSubmitted: (value) {
-                        FocusScope.of(context)
-                            .requestFocus(_focusNodes['city']);
-                      },
-                      focusNode: _focusNodes['street_address'],
-                      name: 'street_address',
-                      decoration: InputDecoration(
-                        labelText: 'Street Address',
+                    Padding(
+                      padding: const EdgeInsets.all(20),
+                      child: FormBuilderTextField(
+                        onSubmitted: (value) {
+                          FocusScope.of(context).requestFocus(
+                              _focusNodes[COMPLAINT_STREET_ADDRESS]);
+                        },
+                        initialValue:
+                            initialValues[COMPLAINT_ORGANIZATION_NAME],
+                        focusNode: _focusNodes[COMPLAINT_ORGANIZATION_NAME],
+                        name: COMPLAINT_ORGANIZATION_NAME,
+                        decoration: InputDecoration(
+                          labelText: 'Organization Name',
+                        ),
+                        onChanged: (value) {},
+                        validator: FormBuilderValidators.compose(
+                          [
+                            FormBuilderValidators.required(context),
+                          ],
+                        ),
+                        keyboardType: TextInputType.name,
                       ),
-                      onChanged: (value) {},
-                      // valueTransformer: (text) => num.tryParse(text),
-                      validator: FormBuilderValidators.compose(
-                        [
-                          FormBuilderValidators.required(context),
-                        ],
-                      ),
-                      keyboardType: TextInputType.name,
                     ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(20),
-                    child: FormBuilderTextField(
-                      onSubmitted: (value) {
-                        FocusScope.of(context)
-                            .requestFocus(_focusNodes['state']);
-                      },
-                      focusNode: _focusNodes['city'],
-                      name: 'city',
-                      decoration: InputDecoration(
-                        labelText: 'City',
+                    Padding(
+                      padding: const EdgeInsets.all(20),
+                      child: FormBuilderTextField(
+                        onSubmitted: (value) {
+                          FocusScope.of(context)
+                              .requestFocus(_focusNodes[COMPLAINT_CITY]);
+                        },
+                        initialValue: initialValues[COMPLAINT_STREET_ADDRESS],
+                        focusNode: _focusNodes[COMPLAINT_STREET_ADDRESS],
+                        name: COMPLAINT_STREET_ADDRESS,
+                        decoration: InputDecoration(
+                          labelText: 'Street Address',
+                        ),
+                        onChanged: (value) {},
+                        validator: FormBuilderValidators.compose(
+                          [
+                            FormBuilderValidators.required(context),
+                          ],
+                        ),
+                        keyboardType: TextInputType.name,
                       ),
-                      onChanged: (value) {},
-                      // valueTransformer: (text) => num.tryParse(text),
-                      validator: FormBuilderValidators.compose(
-                        [
-                          FormBuilderValidators.required(context),
-                        ],
-                      ),
-                      keyboardType: TextInputType.name,
                     ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(20),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: FormBuilderDropdown(
-                            onChanged: (state) {
-                              FocusScope.of(context)
-                                  .requestFocus(_focusNodes['zip']);
-                            },
-                            name: 'state',
-                            decoration: InputDecoration(
-                              labelText: 'State',
+                    Padding(
+                      padding: const EdgeInsets.all(20),
+                      child: FormBuilderTextField(
+                        onSubmitted: (value) {
+                          FocusScope.of(context)
+                              .requestFocus(_focusNodes[COMPLAINT_STATE]);
+                        },
+                        initialValue: initialValues[COMPLAINT_CITY],
+                        focusNode: _focusNodes[COMPLAINT_CITY],
+                        name: COMPLAINT_CITY,
+                        decoration: InputDecoration(
+                          labelText: 'City',
+                        ),
+                        onChanged: (value) {},
+                        validator: FormBuilderValidators.compose(
+                          [
+                            FormBuilderValidators.required(context),
+                          ],
+                        ),
+                        keyboardType: TextInputType.name,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(20),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: FormBuilderDropdown(
+                              onChanged: (state) {
+                                FocusScope.of(context)
+                                    .requestFocus(_focusNodes[COMPLAINT_ZIP]);
+                              },
+
+                              name: COMPLAINT_STATE,
+                              decoration: InputDecoration(
+                                labelText: 'State',
+                              ),
+                              // initialValue: 'Male',
+                              allowClear: true,
+                              hint: Text(''),
+                              initialValue: STATES_DROPDOWN_DATA[0]
+                                  ['abbreviation'],
+                              validator: FormBuilderValidators.compose(
+                                  [FormBuilderValidators.required(context)]),
+                              items: STATES_DROPDOWN_DATA
+                                  .map((state) => DropdownMenuItem(
+                                        value: state['abbreviation'],
+                                        child: Text('${state['abbreviation']}'),
+                                      ))
+                                  .toList(),
                             ),
-                            // initialValue: 'Male',
-                            allowClear: true,
-                            hint: Text(''),
-                            initialValue: STATES_DROPDOWN_DATA[0]
-                                ['abbreviation'],
-                            validator: FormBuilderValidators.compose(
-                                [FormBuilderValidators.required(context)]),
-                            items: STATES_DROPDOWN_DATA
-                                .map((state) => DropdownMenuItem(
-                                      value: state['abbreviation'],
-                                      child: Text('${state['abbreviation']}'),
-                                    ))
-                                .toList(),
+                          ),
+                          SizedBox(width: 20),
+                          Expanded(
+                            child: FormBuilderTextField(
+                              focusNode: _focusNodes[COMPLAINT_PHONE],
+                              name: COMPLAINT_ZIP,
+                              decoration: InputDecoration(
+                                labelText: 'Zip',
+                              ),
+                              initialValue: initialValues[COMPLAINT_ZIP],
+                              onChanged: (value) {},
+                              validator: FormBuilderValidators.compose(
+                                [
+                                  FormBuilderValidators.required(context),
+                                  FormBuilderValidators.maxLength(context, 5),
+                                  FormBuilderValidators.minLength(context, 5),
+                                ],
+                              ),
+                              keyboardType: TextInputType.number,
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(20),
+                      child: FormBuilderTextField(
+                        onSubmitted: (value) {
+                          FocusScope.of(context)
+                              .requestFocus(_focusNodes[COMPLAINT_EMAIL]);
+                        },
+                        initialValue: initialValues[COMPLAINT_PHONE],
+                        focusNode: _focusNodes[COMPLAINT_PHONE],
+                        name: COMPLAINT_PHONE,
+                        decoration: InputDecoration(
+                          labelText: 'Phone',
+                        ),
+                        onChanged: (value) {},
+                        maxLength: 10,
+                        inputFormatters: [
+                          _mobileFormatter,
+                          FilteringTextInputFormatter.digitsOnly,
+                        ],
+                        validator: FormBuilderValidators.compose(
+                          [
+                            FormBuilderValidators.required(context),
+                          ],
+                        ),
+                        keyboardType: TextInputType.phone,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(20),
+                      child: FormBuilderTextField(
+                        onSubmitted: (value) {
+                          FocusScope.of(context).requestFocus(
+                              _focusNodes[COMPLAINT_PREFERRED_CONTACT]);
+                        },
+                        initialValue: initialValues[COMPLAINT_EMAIL],
+                        focusNode: _focusNodes[COMPLAINT_EMAIL],
+                        name: COMPLAINT_EMAIL,
+                        decoration: InputDecoration(
+                          labelText: 'Email',
+                        ),
+                        onChanged: (value) {},
+                        inputFormatters: [],
+                        validator: FormBuilderValidators.compose(
+                          [
+                            FormBuilderValidators.required(context),
+                            FormBuilderValidators.email(context)
+                          ],
+                        ),
+                        keyboardType: TextInputType.emailAddress,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(20),
+                      child: FormBuilderRadioGroup(
+                        onChanged: (value) {
+                          FocusScope.of(context).requestFocus(_focusNodes['?']);
+                        },
+                        initialValue:
+                            initialValues[COMPLAINT_PREFERRED_CONTACT],
+                        decoration: InputDecoration(
+                          labelText: 'Preferred Contact',
+                          labelStyle: TextStyle(
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
-                        SizedBox(width: 20),
-                        Expanded(
-                          child: FormBuilderTextField(
-                            focusNode: _focusNodes['zip'],
-                            name: 'zip',
-                            decoration: InputDecoration(
-                              labelText: 'Zip',
+                        name: COMPLAINT_PREFERRED_CONTACT,
+                        validator: FormBuilderValidators.required(context),
+                        options: [
+                          'Phone',
+                          'Email',
+                          'US Mail',
+                        ]
+                            .map(
+                              (option) => FormBuilderFieldOption(
+                                value: option,
+                              ),
+                            )
+                            .toList(
+                              growable: false,
                             ),
-                            onChanged: (value) {},
-                            // valueTransformer: (text) => num.tryParse(text),
-                            validator: FormBuilderValidators.compose(
-                              [
-                                FormBuilderValidators.required(context),
-                                FormBuilderValidators.maxLength(context, 5),
-                                FormBuilderValidators.minLength(context, 5),
-                              ],
-                            ),
-                            keyboardType: TextInputType.number,
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(20),
-                    child: FormBuilderTextField(
-                      onSubmitted: (value) {
-                        FocusScope.of(context)
-                            .requestFocus(_focusNodes['email']);
-                      },
-                      focusNode: _focusNodes['phone'],
-                      name: 'phone',
-                      decoration: InputDecoration(
-                        labelText: 'Phone',
                       ),
-                      onChanged: (value) {},
-                      // valueTransformer: (text) => num.tryParse(text),
-                      maxLength: 10,
-                      inputFormatters: [
-                        _mobileFormatter,
-                        FilteringTextInputFormatter.digitsOnly,
-                      ],
-                      validator: FormBuilderValidators.compose(
-                        [
-                          FormBuilderValidators.required(context),
-                        ],
+                    ),
+                    biggerTextWidget(
+                      text:
+                          'Respondent Information (Person or Organization that Discriminated)',
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(20),
+                      child: CustomButton(
+                        buttonColor: Colors.blueGrey,
+                        text: 'SUBMIT',
+                        textColor: Colors.white,
+                        onPressed: submitForm,
                       ),
-                      keyboardType: TextInputType.phone,
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(20),
-                    child: CustomButton(
-                      buttonColor: Colors.blueGrey,
-                      text: 'SUBMIT',
-                      textColor: Colors.white,
-                      onPressed: submitForm,
-                    ),
-                  )
-                ],
+                    )
+                  ],
+                ),
               ),
             ),
           );
@@ -321,7 +426,7 @@ class _ComplaintFormPageState extends State<ComplaintFormPage> {
 
   Widget generalTextWidget({@required String text}) {
     return Padding(
-      padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+      padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
       child: Text(
         text,
         style: Theme.of(context).textTheme.bodyText1,
@@ -331,7 +436,7 @@ class _ComplaintFormPageState extends State<ComplaintFormPage> {
 
   Widget biggerTextWidget({@required String text}) {
     return Padding(
-      padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+      padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
       child: Text(
         text,
         style: Theme.of(context).textTheme.headline6,

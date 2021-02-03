@@ -61,3 +61,14 @@ const List<dynamic> STATES_DROPDOWN_DATA = [
   {'name': 'Wisconsin', 'abbreviation': 'WI'},
   {'name': 'Wyoming', 'abbreviation': 'WY'}
 ];
+
+const String COMPLAINT_FIRST_NAME = 'complaint_first_name';
+const String COMPLAINT_LAST_NAME = 'complaint_last_name';
+const String COMPLAINT_ORGANIZATION_NAME = 'complaint_organization_name';
+const String COMPLAINT_STREET_ADDRESS = 'complaint_street_address';
+const String COMPLAINT_CITY = 'complaint_city';
+const String COMPLAINT_STATE = 'complaint_state';
+const String COMPLAINT_ZIP = 'complaint_zip';
+const String COMPLAINT_PHONE = 'complaint_phone';
+const String COMPLAINT_EMAIL = 'complaint_email';
+const String COMPLAINT_PREFERRED_CONTACT = 'complaint_preferred_contact';

@@ -1,13 +1,7 @@
-import 'package:dayton_human_relations_council/complaint_form/complaint_form_bloc.dart';
-import 'package:dayton_human_relations_council/constants.dart';
-import 'package:dayton_human_relations_council/service_locator.dart';
-import 'package:dayton_human_relations_council/services/modal_service.dart';
-import 'package:dayton_human_relations_council/widgets/custom_button.dart';
-import 'package:dayton_human_relations_council/widgets/custom_spinner.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_form_builder/flutter_form_builder.dart';
+
+
+part of 'complaint_form_bloc.dart';
+
 
 class ComplaintFormPage extends StatefulWidget {
   @override

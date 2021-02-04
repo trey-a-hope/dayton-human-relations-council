@@ -1,9 +1,11 @@
 import 'dart:async';
+import 'dart:convert' show json;
 
 import 'package:bloc/bloc.dart';
 import 'package:dayton_human_relations_council/constants.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 part 'complaint_form_event.dart';
 part 'complaint_form_state.dart';
@@ -15,6 +17,8 @@ class ComplaintFormBloc extends Bloc<ComplaintFormEvent, ComplaintFormState> {
   Stream<ComplaintFormState> mapEventToState(
     ComplaintFormEvent event,
   ) async* {
+    yield ComplaintFormLoadingState();
+
     if (event is SubmitComplaintFormEvent) {
       final Map<String, dynamic> formData = event.formData;
 
@@ -31,9 +35,49 @@ class ComplaintFormBloc extends Bloc<ComplaintFormEvent, ComplaintFormState> {
       final String complaint_preferred_contact =
           formData[COMPLAINT_PREFERRED_CONTACT];
 
+      final String respondent_first_name = formData[RESPONDENT_FIRST_NAME];
+      final String respondent_last_name = formData[RESPONDENT_LAST_NAME];
+      final String respondent_organization_name =
+          formData[RESPONDENT_ORGANIZATION_NAME];
+      final String respondent_street_address =
+          formData[RESPONDENT_STREET_ADDRESS];
+      final String respondent_city = formData[RESPONDENT_CITY];
+      final String respondent_state = formData[RESPONDENT_STATE];
+      final String respondent_zip = formData[RESPONDENT_ZIP];
+      final String respondent_phone = formData[RESPONDENT_PHONE];
+      final String respondent_email = formData[RESPONDENT_EMAIL];
+      final List<String> type_of_complaint = formData[TYPE_OF_COMPLAINT];
+      final List<String> discrimination_class = formData[DISCRIMINATION_CLASS];
+      final String last_discriminatory_act = formData[LAST_DISCRIMINATORY_ACT];
+      final String why_respondent_discriminated =
+          formData[WHY_RESPONDENT_DESCRIMINATED];
+      final String complaint_filed_with_other_org =
+          formData[COMPLAINT_FILED_WITH_OTHER_ORG];
+
       print(formData);
 
-      //TODO: Submit the form.
+      try {
+        http.Response response = await http.post(
+          'https://us-central1-dayton-human-relations-council.cloudfunctions.net/testEmail',
+          body: {
+            // 'myUID': myUID,
+            // 'theirUID': theirUID,
+          },
+          headers: {'content-type': 'application/x-www-form-urlencoded'},
+        );
+
+        if (json.decode(response.body) == true) {
+          yield ComplaintFormSuccessState();
+        } else {
+          throw Exception('This did not work.');
+        }
+      } catch (error) {
+        yield ComplaintFormErrorState(error: error);
+      }
+    }
+
+    if (event is ReturnToFormEvent) {
+      yield ComplaintFormInitialState();
     }
   }
 }

@@ -1,5 +1,7 @@
 import 'package:dayton_human_relations_council/complaint_form/complaint_form_bloc.dart';
 import 'package:dayton_human_relations_council/constants.dart';
+import 'package:dayton_human_relations_council/service_locator.dart';
+import 'package:dayton_human_relations_council/services/modal_service.dart';
 import 'package:dayton_human_relations_council/widgets/custom_button.dart';
 import 'package:dayton_human_relations_council/widgets/custom_spinner.dart';
 import 'package:flutter/material.dart';
@@ -105,14 +107,10 @@ class _ComplaintFormPageState extends State<ComplaintFormPage> {
 
     if (!formBuilderState.saveAndValidate()) return;
 
-    // final bool confirm = await locator<ModalService>()
-    //     .showConfirmation(
-    //         context: context,
-    //         title: 'Submit Critique',
-    //         message: 'Are you sure?');
+    final bool confirm = await locator<ModalService>().showConfirmation(
+        context: context, title: 'Submit Form', message: 'Are you sure?');
 
-    // if (!confirm) return;
-    //todo: uncomment this in production.
+    if (!confirm) return;
 
     Map<String, dynamic> formData = formBuilderState.value;
 
@@ -808,16 +806,106 @@ class _ComplaintFormPageState extends State<ComplaintFormPage> {
                     ),
                     Padding(
                       padding: const EdgeInsets.all(20),
-                      child: CustomButton(
-                        buttonColor: Colors.blueGrey,
-                        text: 'SUBMIT',
-                        textColor: Colors.white,
-                        onPressed: submitForm,
+                      child: Center(
+                        child: CustomButton(
+                          buttonColor: Colors.blueGrey,
+                          text: 'SUBMIT',
+                          textColor: Colors.white,
+                          onPressed: submitForm,
+                        ),
                       ),
                     )
                   ],
                 ),
               ),
+            );
+          }
+
+          if (state is ComplaintFormErrorState) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.thumb_down_sharp,
+                  color: Colors.red,
+                  size: 100,
+                ),
+                Text(
+                  'Sorry!',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 21,
+                    color: Colors.red,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Text(
+                  'We had trouble submitting your form; please try again later.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.red,
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                CustomButton(
+                  buttonColor: Colors.blueGrey,
+                  text: 'Back To Form',
+                  textColor: Colors.white,
+                  onPressed: () {
+                    context.read<ComplaintFormBloc>().add(
+                          ReturnToFormEvent(),
+                        );
+                  },
+                ),
+              ],
+            );
+          }
+
+          if (state is ComplaintFormSuccessState) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.thumb_up_sharp,
+                  color: Colors.green,
+                  size: 100,
+                ),
+                Text(
+                  'Got It!',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 21,
+                    color: Colors.green,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Text(
+                  'Your form has been successfully submitted; we will respond shortly!',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.green,
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                CustomButton(
+                  buttonColor: Colors.blueGrey,
+                  text: 'Back To Form',
+                  textColor: Colors.white,
+                  onPressed: () {
+                    context.read<ComplaintFormBloc>().add(
+                          ReturnToFormEvent(),
+                        );
+                  },
+                ),
+              ],
             );
           }
 

@@ -16,7 +16,7 @@ class CustomSpinner extends StatelessWidget {
           SizedBox(height: 20),
           Text(
             'Loading...',
-            style: Theme.of(context).textTheme.headline5,
+            style: Theme.of(context).textTheme.headline6,
           ),
         ],
       ),

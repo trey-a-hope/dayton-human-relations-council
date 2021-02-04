@@ -10,7 +10,6 @@ abstract class ComplaintFormEvent extends Equatable {
 class SubmitComplaintFormEvent extends ComplaintFormEvent {
   final Map<String, dynamic> formData;
 
-
   SubmitComplaintFormEvent({
     @required this.formData,
   });
@@ -19,3 +18,5 @@ class SubmitComplaintFormEvent extends ComplaintFormEvent {
         formData,
       ];
 }
+
+class ReturnToFormEvent extends ComplaintFormEvent {}

@@ -59,7 +59,7 @@ const List<dynamic> STATES_DROPDOWN_DATA = [
   {'name': 'Washington', 'abbreviation': 'WA'},
   {'name': 'West Virginia', 'abbreviation': 'WV'},
   {'name': 'Wisconsin', 'abbreviation': 'WI'},
-  {'name': 'Wyoming', 'abbreviation': 'WY'}
+  {'name': 'Wyoming', 'abbreviation': 'WY'},
 ];
 
 const String COMPLAINT_FIRST_NAME = 'complaint_first_name';

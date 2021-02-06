@@ -12,15 +12,17 @@ const TEMPLATE_ID = functions.config().sendgrid.template;
 sgMail.setApiKey(API_KEY);
 
 export const testEmail = functions.https.onRequest(async (req, res) => {
-    //const uid = req.body.uid;
+    const complaint_firstName = req.body.complaint_firstName;
+    const complaint_lastName = req.body.complaint_lastName;
 
     const msg = {
         to: 'trey.a.hope@gmail.com',
         from: 'trey.a.hope@gmail.com',
         templateId: TEMPLATE_ID,
         dynamic_template_data: {
-            subject: 'Welcome to my awesome app!',
-            username: 'Joey Wheeler'
+            subject: 'New Civil Rights Discrimination Complaint Form',
+            complaint_firstName: complaint_firstName,
+            complaint_lastName: complaint_lastName,
         }
     }
 

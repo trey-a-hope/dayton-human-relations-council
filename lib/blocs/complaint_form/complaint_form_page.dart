@@ -1,7 +1,4 @@
-
-
 part of 'complaint_form_bloc.dart';
-
 
 class ComplaintFormPage extends StatefulWidget {
   @override
@@ -151,7 +148,7 @@ class _ComplaintFormPageState extends State<ComplaintFormPage> {
                         text:
                             'You can also fill out the online form below and a member of our Civil Rights team will contact you as soon as possible.'),
                     biggerTextWidget(
-                        text: 'Complaint Information (Your Information)'),
+                        text: 'Complainant Information (Your Information)'),
                     SizedBox(
                       height: 20,
                     ),

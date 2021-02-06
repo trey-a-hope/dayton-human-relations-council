@@ -68,8 +68,8 @@ class ComplaintFormBloc extends Bloc<ComplaintFormEvent, ComplaintFormState> {
         http.Response response = await http.post(
           'https://us-central1-dayton-human-relations-council.cloudfunctions.net/testEmail',
           body: {
-            // 'myUID': myUID,
-            // 'theirUID': theirUID,
+            complaint_firstName: complaint_firstName,
+            complaint_lastName: complaint_lastName,
           },
           headers: {'content-type': 'application/x-www-form-urlencoded'},
         );

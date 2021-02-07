@@ -122,8 +122,6 @@ class _ComplaintFormPageState extends State<ComplaintFormPage> {
 
   @override
   Widget build(BuildContext context) {
-    fillFormWithDummyData(); //todo: delete this in production.
-
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
@@ -925,6 +923,9 @@ class _ComplaintFormPageState extends State<ComplaintFormPage> {
           return Container();
         },
         listener: (context, state) {
+          if (state is ComplaintFormInitialState) {
+            attemptedSubmit = false;
+          }
           if (state is ComplaintFormErrorState) {}
         },
       ),

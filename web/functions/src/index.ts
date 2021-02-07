@@ -26,9 +26,27 @@ export const testEmail = functions.https.onRequest(async (req, res) => {
     const complaint_zip = req.body.complaint_zip;
     const complaint_phone = req.body.complaint_phone;
     const complaint_email = req.body.complaint_email;
+    const complaint_preferred_contact = req.body.complaint_preferred_contact;
+
+    const respondent_first_name = req.body.respondent_first_name;
+    const respondent_last_name = req.body.respondent_last_name;
+    const respondent_organization_name = req.body.respondent_organization_name;
+    const respondent_street_address = req.body.respondent_street_address;
+    const respondent_city = req.body.respondent_city;
+    const respondent_state = req.body.respondent_state;
+    const respondent_zip = req.body.respondent_zip;
+    const respondent_phone = req.body.respondent_phone;
+    const respondent_email = req.body.respondent_email;
+
+    const type_of_complaint = req.body.type_of_complaint;
+    const discrimination_class = req.body.discrimination_class;
+    const last_discriminatory_act = req.body.last_discriminatory_act;
+    const why_respondent_discriminated = req.body.why_respondent_discriminated;
+    const complaint_filed_with_other_org = req.body.complaint_filed_with_other_org;
 
     const msg = {
         to: 'trey.a.hope@gmail.com',
+        cc: 'thope@imabigcritic.com',
         from: 'trey.a.hope@gmail.com',
         templateId: TEMPLATE_ID,
         dynamic_template_data: {
@@ -42,6 +60,21 @@ export const testEmail = functions.https.onRequest(async (req, res) => {
             complaint_zip: complaint_zip,
             complaint_phone: complaint_phone,
             complaint_email: complaint_email,
+            complaint_preferred_contact: complaint_preferred_contact,
+            respondent_first_name: respondent_first_name,
+            respondent_last_name: respondent_last_name,
+            respondent_organization_name: respondent_organization_name,
+            respondent_street_address: respondent_street_address,
+            respondent_city: respondent_city,
+            respondent_state: respondent_state,
+            respondent_zip: respondent_zip,
+            respondent_phone: respondent_phone,
+            respondent_email: respondent_email,
+            type_of_complaint: type_of_complaint,
+            discrimination_class: discrimination_class,
+            last_discriminatory_act: last_discriminatory_act,
+            why_respondent_discriminated: why_respondent_discriminated,
+            complaint_filed_with_other_org: complaint_filed_with_other_org
         }
     }
 

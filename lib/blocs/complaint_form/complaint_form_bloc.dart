@@ -57,15 +57,17 @@ class ComplaintFormBloc extends Bloc<ComplaintFormEvent, ComplaintFormState> {
       final String respondent_zip = formData[RESPONDENT_ZIP];
       final String respondent_phone = formData[RESPONDENT_PHONE];
       final String respondent_email = formData[RESPONDENT_EMAIL];
-      final List<String> type_of_complaint = formData[TYPE_OF_COMPLAINT];
-      final List<String> discrimination_class = formData[DISCRIMINATION_CLASS];
+
+      final List<String> type_of_complaint = formData[TYPE_OF_COMPLAINT] ?? [];
+      final List<String> discrimination_class =
+          formData[DISCRIMINATION_CLASS] ?? [];
       final String last_discriminatory_act = formData[LAST_DISCRIMINATORY_ACT];
       final String why_respondent_discriminated =
           formData[WHY_RESPONDENT_DESCRIMINATED];
       final String complaint_filed_with_other_org =
           formData[COMPLAINT_FILED_WITH_OTHER_ORG];
 
-      print(formData);
+      // print(formData);
 
       try {
         http.Response response = await http.post(
@@ -80,6 +82,22 @@ class ComplaintFormBloc extends Bloc<ComplaintFormEvent, ComplaintFormState> {
             'complaint_zip': complaint_zip ?? '',
             'complaint_phone': complaint_phone ?? '',
             'complaint_email': complaint_email ?? '',
+            'complaint_preferred_contact': complaint_preferred_contact ?? '',
+            'respondent_first_name': respondent_first_name ?? '',
+            'respondent_last_name': respondent_last_name ?? '',
+            'respondent_organization_name': respondent_organization_name ?? '',
+            'respondent_street_address': respondent_street_address ?? '',
+            'respondent_city': respondent_city ?? '',
+            'respondent_state': respondent_state ?? '',
+            'respondent_zip': respondent_zip ?? '',
+            'respondent_phone': respondent_phone ?? '',
+            'respondent_email': respondent_email ?? '',
+            'type_of_complaint': type_of_complaint.join(', '),
+            'discrimination_class': discrimination_class.join(', '),
+            'last_discriminatory_act': last_discriminatory_act ?? '',
+            'why_respondent_discriminated': why_respondent_discriminated ?? '',
+            'complaint_filed_with_other_org':
+                complaint_filed_with_other_org ?? ''
           },
           headers: {'content-type': 'application/x-www-form-urlencoded'},
         );

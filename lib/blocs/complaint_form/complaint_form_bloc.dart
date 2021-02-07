@@ -19,7 +19,10 @@ part 'complaint_form_state.dart';
 part 'complaint_form_page.dart';
 
 class ComplaintFormBloc extends Bloc<ComplaintFormEvent, ComplaintFormState> {
-  ComplaintFormBloc() : super(ComplaintFormInitialState());
+  ComplaintFormBloc()
+      : super(
+          ComplaintFormInitialState(),
+        );
 
   @override
   Stream<ComplaintFormState> mapEventToState(
@@ -68,8 +71,15 @@ class ComplaintFormBloc extends Bloc<ComplaintFormEvent, ComplaintFormState> {
         http.Response response = await http.post(
           'https://us-central1-dayton-human-relations-council.cloudfunctions.net/testEmail',
           body: {
-            complaint_firstName: complaint_firstName,
-            complaint_lastName: complaint_lastName,
+            'complaint_firstName': complaint_firstName ?? '',
+            'complaint_lastName': complaint_lastName ?? '',
+            'complaint_organizationName': complaint_organizationName ?? '',
+            'complaint_streetAddress': complaint_streetAddress ?? '',
+            'complaint_city': complaint_city ?? '',
+            'complaint_state': complaint_state ?? '',
+            'complaint_zip': complaint_zip ?? '',
+            'complaint_phone': complaint_phone ?? '',
+            'complaint_email': complaint_email ?? '',
           },
           headers: {'content-type': 'application/x-www-form-urlencoded'},
         );

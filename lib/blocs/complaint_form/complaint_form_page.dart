@@ -8,7 +8,9 @@ class ComplaintFormPage extends StatefulWidget {
 class _ComplaintFormPageState extends State<ComplaintFormPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final GlobalKey<FormBuilderState> _formKey = GlobalKey<FormBuilderState>();
-  final _mobileFormatter = NumberTextInputFormatter();
+  final NumberTextInputFormatter _mobileFormatter = NumberTextInputFormatter();
+
+  bool attemptedSubmit = false;
 
   Map<String, FocusNode> _focusNodes;
 
@@ -96,7 +98,13 @@ class _ComplaintFormPageState extends State<ComplaintFormPage> {
 
     final FormBuilderState formBuilderState = _formKey.currentState;
 
-    if (!formBuilderState.saveAndValidate()) return;
+    if (!formBuilderState.saveAndValidate()) {
+      setState(() {
+        attemptedSubmit = true;
+      });
+
+      return;
+    }
 
     final bool confirm = await locator<ModalService>().showConfirmation(
         context: context, title: 'Submit Form', message: 'Are you sure?');
@@ -795,6 +803,18 @@ class _ComplaintFormPageState extends State<ComplaintFormPage> {
                         keyboardType: TextInputType.text,
                       ),
                     ),
+                    Visibility(
+                        visible: attemptedSubmit,
+                        child: Center(
+                          child: Text(
+                            'Sorry, looks like there\'s an error in your form.',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Colors.red.shade700,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        )),
                     Padding(
                       padding: const EdgeInsets.all(20),
                       child: Center(

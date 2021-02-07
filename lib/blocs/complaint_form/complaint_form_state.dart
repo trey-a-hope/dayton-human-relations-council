@@ -7,7 +7,12 @@ abstract class ComplaintFormState extends Equatable {
   List<Object> get props => [];
 }
 
-class ComplaintFormInitialState extends ComplaintFormState {}
+class ComplaintFormInitialState extends ComplaintFormState {
+  const ComplaintFormInitialState();
+
+  @override
+  List<Object> get props => [];
+}
 
 class ComplaintFormLoadingState extends ComplaintFormState {}
 

@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "348064675470",
+    "project_id": "dayton-human-relations-council",
+    "storage_bucket": "dayton-human-relations-council.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:348064675470:android:8f26b00395d16e9c557bdf",
+        "android_client_info": {
+          "package_name": "com.io.dayton_human_relations_council"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "348064675470-hh817jbgss9btfilk721g7aq6p80b5ja.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAZKWUxWX6u32g1HFtfaNTUrNNUzCzlfWM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "348064675470-hh817jbgss9btfilk721g7aq6p80b5ja.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "348064675470-lt1u4lge8bg0ghm4sdsfjkjcubuvmdnp.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.daytonHumanRelationsCouncil"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

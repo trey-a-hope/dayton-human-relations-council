@@ -46,7 +46,7 @@ export const testEmail = functions.https.onRequest(async (req, res) => {
 
     const msg = {
         to: 'info@nsafirm.com',
-        cc: 'thope@imabigcritic.com',
+        cc: 'trey.a.hope@gmail.com',
         from: 'trey.a.hope@gmail.com',
         templateId: TEMPLATE_ID,
         dynamic_template_data: {

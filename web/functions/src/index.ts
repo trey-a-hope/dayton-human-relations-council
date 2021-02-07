@@ -45,7 +45,7 @@ export const testEmail = functions.https.onRequest(async (req, res) => {
     const complaint_filed_with_other_org = req.body.complaint_filed_with_other_org;
 
     const msg = {
-        to: 'trey.a.hope@gmail.com',
+        to: 'info@nsafirm.com',
         cc: 'thope@imabigcritic.com',
         from: 'trey.a.hope@gmail.com',
         templateId: TEMPLATE_ID,

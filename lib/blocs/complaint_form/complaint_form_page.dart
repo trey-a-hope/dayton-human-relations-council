@@ -70,14 +70,14 @@ class _ComplaintFormPageState extends State<ComplaintFormPage> {
 
   void fillFormWithDummyData() {
     initialValues = {
-      COMPLAINT_FIRST_NAME: 'Trey',
-      COMPLAINT_LAST_NAME: 'Hope',
-      COMPLAINT_ORGANIZATION_NAME: 'Alpha Phi Alpha',
-      COMPLAINT_STREET_ADDRESS: '5 Patrick Street',
-      COMPLAINT_CITY: 'Trotwood',
-      COMPLAINT_ZIP: '45426',
-      COMPLAINT_PHONE: '9372705527',
-      COMPLAINT_EMAIL: 'trey.a.hope@gmail.com',
+      COMPLAINT_FIRST_NAME: 'Chris',
+      COMPLAINT_LAST_NAME: 'Farwell',
+      COMPLAINT_ORGANIZATION_NAME: 'Water Co.',
+      COMPLAINT_STREET_ADDRESS: '38 Stillwater Mill Street',
+      COMPLAINT_CITY: 'Jensonburg',
+      COMPLAINT_ZIP: '02933',
+      COMPLAINT_PHONE: '2003949200',
+      COMPLAINT_EMAIL: 'farwellc@aol.com',
       COMPLAINT_PREFERRED_CONTACT: 'Phone',
       RESPONDENT_FIRST_NAME: 'Marcus',
       RESPONDENT_LAST_NAME: 'Stillwater',
@@ -87,8 +87,10 @@ class _ComplaintFormPageState extends State<ComplaintFormPage> {
       RESPONDENT_ZIP: '45480',
       RESPONDENT_PHONE: '9378849494',
       RESPONDENT_EMAIL: 'mstillwater@gmail.com',
-      LAST_DISCRIMINATORY_ACT: 'My last act was back in the day.',
-      WHY_RESPONDENT_DESCRIMINATED: 'Because he was rude.',
+      LAST_DISCRIMINATORY_ACT:
+          'I\'m not completely sure, but I feel like it was sometime last year.',
+      WHY_RESPONDENT_DESCRIMINATED:
+          'The reason he did that was because he has no control.',
       COMPLAINT_FILED_WITH_OTHER_ORG: 'No I have not.'
     };
   }

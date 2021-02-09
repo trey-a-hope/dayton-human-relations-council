@@ -86,3 +86,6 @@ const String DISCRIMINATION_CLASS = 'discrimination_class';
 const String LAST_DISCRIMINATORY_ACT = 'last_discriminatory_act';
 const String WHY_RESPONDENT_DESCRIMINATED = 'why_respondent_discriminated';
 const String COMPLAINT_FILED_WITH_OTHER_ORG = 'complaint_filed_with_other_org';
+
+const String IMAGE_1 = 'assets/images/image_1.jpg';
+const String IMAGE_2 = 'assets/images/image_2.jpg';

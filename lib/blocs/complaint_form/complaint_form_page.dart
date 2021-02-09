@@ -126,7 +126,7 @@ class _ComplaintFormPageState extends State<ComplaintFormPage> {
       key: _scaffoldKey,
       appBar: AppBar(
         title: Text('Dayton Human Relations Council'),
-        backgroundColor: Colors.brown,
+        backgroundColor: Colors.black,
       ),
       body: BlocConsumer<ComplaintFormBloc, ComplaintFormState>(
         builder: (context, state) {
@@ -141,6 +141,18 @@ class _ComplaintFormPageState extends State<ComplaintFormPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    Container(
+                      height: 350,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage(
+                            IMAGE_1,
+                          ),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
                     biggerTextWidget(
                         text: 'Civil Rights Discrimination Complaint Form'),
                     generalTextWidget(
@@ -415,6 +427,18 @@ class _ComplaintFormPageState extends State<ComplaintFormPage> {
                             .toList(
                               growable: false,
                             ),
+                      ),
+                    ),
+                    Container(
+                      height: 350,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage(
+                            IMAGE_2,
+                          ),
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
                     biggerTextWidget(
@@ -819,7 +843,7 @@ class _ComplaintFormPageState extends State<ComplaintFormPage> {
                       padding: const EdgeInsets.all(20),
                       child: Center(
                         child: CustomButton(
-                          buttonColor: Colors.blueGrey,
+                          buttonColor: Colors.black,
                           text: 'SUBMIT',
                           textColor: Colors.white,
                           onPressed: submitForm,

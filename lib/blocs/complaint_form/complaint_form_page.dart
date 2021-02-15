@@ -127,6 +127,16 @@ class _ComplaintFormPageState extends State<ComplaintFormPage> {
       appBar: AppBar(
         title: Text('Dayton Human Relations Council'),
         backgroundColor: Colors.black,
+        actions: [
+          IconButton(
+            icon: Icon(Icons.help),
+            onPressed: () {
+              Route route = MaterialPageRoute(
+                  builder: (BuildContext context) => FaqPage());
+              Navigator.push(context, route);
+            },
+          )
+        ],
       ),
       body: BlocConsumer<ComplaintFormBloc, ComplaintFormState>(
         builder: (context, state) {
@@ -429,15 +439,18 @@ class _ComplaintFormPageState extends State<ComplaintFormPage> {
                             ),
                       ),
                     ),
-                    Container(
-                      height: 350,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: AssetImage(
-                            IMAGE_2,
+                    Padding(
+                      padding: EdgeInsets.symmetric(vertical: 50),
+                      child: Container(
+                        height: 200,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage(
+                              IMAGE_3,
+                            ),
+                            fit: BoxFit.contain,
                           ),
-                          fit: BoxFit.cover,
                         ),
                       ),
                     ),

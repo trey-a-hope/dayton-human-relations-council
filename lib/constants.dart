@@ -89,3 +89,4 @@ const String COMPLAINT_FILED_WITH_OTHER_ORG = 'complaint_filed_with_other_org';
 
 const String IMAGE_1 = 'assets/images/image_1.jpg';
 const String IMAGE_2 = 'assets/images/image_2.jpg';
+const String IMAGE_3 = 'assets/images/image_3.png';

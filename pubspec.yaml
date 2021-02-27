@@ -17,6 +17,7 @@ dependencies:
   flutter_form_builder: ^4.2.0
   get_it: ^5.0.3
   http: ^0.12.2
+  intl: ^0.16.1
   package_info: ^0.4.3+2
   rxdart: ^0.25.0
   shared_preferences: ^0.5.12+4

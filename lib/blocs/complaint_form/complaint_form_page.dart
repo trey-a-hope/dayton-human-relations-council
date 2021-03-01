@@ -41,6 +41,7 @@ class _ComplaintFormPageState extends State<ComplaintFormPage> {
     RESPONDENT_ZIP: null,
     RESPONDENT_PHONE: null,
     RESPONDENT_EMAIL: null,
+    RESPONDENT_PREFERRED_CONTACT: null,
   };
 
   @override
@@ -67,6 +68,7 @@ class _ComplaintFormPageState extends State<ComplaintFormPage> {
       RESPONDENT_ZIP: FocusNode(),
       RESPONDENT_PHONE: FocusNode(),
       RESPONDENT_EMAIL: FocusNode(),
+      RESPONDENT_PREFERRED_CONTACT: FocusNode(),
       TYPE_OF_COMPLAINT: FocusNode(),
       DISCRIMINATION_CLASS: FocusNode(),
       LAST_DISCRIMINATORY_ACT: FocusNode(),
@@ -152,6 +154,580 @@ class _ComplaintFormPageState extends State<ComplaintFormPage> {
         );
   }
 
+  FormBuilder _buildIndividualForm() {
+    return FormBuilder(
+      key: _individualFormKey,
+      child: Column(
+        children: [
+          biggerTextWidget(
+            text: 'Complainant Information (Your Information)',
+          ),
+          Padding(
+            padding: const EdgeInsets.all(20),
+            child: FormBuilderTextField(
+              onSubmitted: (value) {
+                FocusScope.of(context)
+                    .requestFocus(_focusNodes[COMPLAINT_LAST_NAME]);
+              },
+              initialValue: initialValues[COMPLAINT_FIRST_NAME],
+              focusNode: _focusNodes[COMPLAINT_FIRST_NAME],
+              name: COMPLAINT_FIRST_NAME,
+              decoration: InputDecoration(
+                labelText: 'First Name',
+              ),
+              onChanged: (value) {},
+              validator: FormBuilderValidators.compose(
+                [
+                  FormBuilderValidators.required(context),
+                ],
+              ),
+              keyboardType: TextInputType.name,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(20),
+            child: FormBuilderTextField(
+              onSubmitted: (value) {
+                FocusScope.of(context)
+                    .requestFocus(_focusNodes[COMPLAINT_ORGANIZATION_NAME]);
+              },
+              onEditingComplete: () {
+                //_formKey.currentState.save();
+              },
+              initialValue: initialValues[COMPLAINT_LAST_NAME],
+              focusNode: _focusNodes[COMPLAINT_LAST_NAME],
+              name: COMPLAINT_LAST_NAME,
+              decoration: InputDecoration(
+                labelText: 'Last Name',
+              ),
+              onChanged: (value) {},
+              validator: FormBuilderValidators.compose(
+                [
+                  FormBuilderValidators.required(context),
+                ],
+              ),
+              keyboardType: TextInputType.name,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(20),
+            child: Text(
+              '-- or --',
+              style: Theme.of(context).textTheme.bodyText1,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(20),
+            child: FormBuilderTextField(
+              onSubmitted: (value) {
+                FocusScope.of(context)
+                    .requestFocus(_focusNodes[COMPLAINT_STREET_ADDRESS]);
+              },
+              initialValue: initialValues[COMPLAINT_ORGANIZATION_NAME],
+              focusNode: _focusNodes[COMPLAINT_ORGANIZATION_NAME],
+              name: COMPLAINT_ORGANIZATION_NAME,
+              decoration: InputDecoration(
+                labelText: 'Organization Name',
+              ),
+              onChanged: (value) {},
+              validator: FormBuilderValidators.compose(
+                [],
+              ),
+              keyboardType: TextInputType.name,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(20),
+            child: FormBuilderTextField(
+              onSubmitted: (value) {
+                FocusScope.of(context)
+                    .requestFocus(_focusNodes[COMPLAINT_CITY]);
+              },
+              initialValue: initialValues[COMPLAINT_STREET_ADDRESS],
+              focusNode: _focusNodes[COMPLAINT_STREET_ADDRESS],
+              name: COMPLAINT_STREET_ADDRESS,
+              decoration: InputDecoration(
+                labelText: 'Street Address',
+              ),
+              onChanged: (value) {},
+              validator: FormBuilderValidators.compose(
+                [
+                  FormBuilderValidators.required(context),
+                ],
+              ),
+              keyboardType: TextInputType.name,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(20),
+            child: FormBuilderTextField(
+              onSubmitted: (value) {
+                FocusScope.of(context)
+                    .requestFocus(_focusNodes[COMPLAINT_STATE]);
+              },
+              initialValue: initialValues[COMPLAINT_CITY],
+              focusNode: _focusNodes[COMPLAINT_CITY],
+              name: COMPLAINT_CITY,
+              decoration: InputDecoration(
+                labelText: 'City',
+              ),
+              onChanged: (value) {},
+              validator: FormBuilderValidators.compose(
+                [
+                  FormBuilderValidators.required(context),
+                ],
+              ),
+              keyboardType: TextInputType.name,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(20),
+            child: Row(
+              children: [
+                Expanded(
+                  child: FormBuilderDropdown(
+                    onChanged: (state) {
+                      FocusScope.of(context)
+                          .requestFocus(_focusNodes[COMPLAINT_ZIP]);
+                    },
+
+                    name: COMPLAINT_STATE,
+                    decoration: InputDecoration(
+                      labelText: 'State',
+                    ),
+                    // initialValue: 'Male',
+                    allowClear: true,
+                    hint: Text(''),
+                    initialValue: STATES_DROPDOWN_DATA[0]['abbreviation'],
+                    validator: FormBuilderValidators.compose(
+                        [FormBuilderValidators.required(context)]),
+                    items: STATES_DROPDOWN_DATA
+                        .map((state) => DropdownMenuItem(
+                              value: state['abbreviation'],
+                              child: Text('${state['abbreviation']}'),
+                            ))
+                        .toList(),
+                  ),
+                ),
+                SizedBox(width: 20),
+                Expanded(
+                  child: FormBuilderTextField(
+                    onSubmitted: (value) {
+                      FocusScope.of(context)
+                          .requestFocus(_focusNodes[COMPLAINT_PHONE]);
+                    },
+                    focusNode: _focusNodes[COMPLAINT_ZIP],
+                    name: COMPLAINT_ZIP,
+                    decoration: InputDecoration(
+                      labelText: 'Zip',
+                    ),
+                    initialValue: initialValues[COMPLAINT_ZIP],
+                    validator: FormBuilderValidators.compose(
+                      [
+                        FormBuilderValidators.required(context),
+                        FormBuilderValidators.maxLength(context, 5),
+                        FormBuilderValidators.minLength(context, 5),
+                      ],
+                    ),
+                    keyboardType: TextInputType.number,
+                  ),
+                )
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(20),
+            child: FormBuilderTextField(
+              onSubmitted: (value) {
+                FocusScope.of(context)
+                    .requestFocus(_focusNodes[COMPLAINT_EMAIL]);
+              },
+              initialValue: initialValues[COMPLAINT_PHONE],
+              focusNode: _focusNodes[COMPLAINT_PHONE],
+              name: COMPLAINT_PHONE,
+              decoration: InputDecoration(
+                labelText: 'Phone',
+              ),
+              onChanged: (value) {},
+              maxLength: 10,
+              inputFormatters: [
+                _mobileFormatter,
+                FilteringTextInputFormatter.digitsOnly,
+              ],
+              validator: FormBuilderValidators.compose(
+                [
+                  FormBuilderValidators.required(context),
+                ],
+              ),
+              keyboardType: TextInputType.phone,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(20),
+            child: FormBuilderTextField(
+              onSubmitted: (value) {
+                FocusScope.of(context)
+                    .requestFocus(_focusNodes[COMPLAINT_PREFERRED_CONTACT]);
+              },
+              initialValue: initialValues[COMPLAINT_EMAIL],
+              focusNode: _focusNodes[COMPLAINT_EMAIL],
+              name: COMPLAINT_EMAIL,
+              decoration: InputDecoration(
+                labelText: 'Email',
+              ),
+              onChanged: (value) {},
+              inputFormatters: [],
+              validator: FormBuilderValidators.compose(
+                [
+                  FormBuilderValidators.required(context),
+                  FormBuilderValidators.email(context)
+                ],
+              ),
+              keyboardType: TextInputType.emailAddress,
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20),
+            child: Text('Preferred Contact'),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
+            child: FormBuilderRadioGroup(
+              onChanged: (value) {
+                FocusScope.of(context).requestFocus(_focusNodes['?']);
+              },
+              initialValue: initialValues[COMPLAINT_PREFERRED_CONTACT],
+              name: COMPLAINT_PREFERRED_CONTACT,
+              options: [
+                'Phone',
+                'Email',
+                'US Mail',
+              ]
+                  .map(
+                    (option) => FormBuilderFieldOption(
+                      value: option,
+                    ),
+                  )
+                  .toList(
+                    growable: false,
+                  ),
+            ),
+          ),
+          Visibility(
+              visible: _attemptedIndividualSubmit,
+              child: Center(
+                child: Text(
+                  'Sorry, looks like there\'s an error in your form.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.red.shade700,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              )),
+          Padding(
+            padding: const EdgeInsets.all(20),
+            child: Center(
+              child: CustomButton(
+                buttonColor: Colors.black,
+                text: 'SUBMIT',
+                textColor: Colors.white,
+                onPressed: _submitIndividualForm,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  FormBuilder _buildOrganizationForm() {
+    return FormBuilder(
+      key: _organizationFormKey,
+      child: Column(
+        children: [
+          biggerTextWidget(
+            text:
+                'Respondent Information (Person or Organization that Discriminated)',
+          ),
+          Padding(
+            padding: const EdgeInsets.all(20),
+            child: FormBuilderTextField(
+              onSubmitted: (value) {
+                FocusScope.of(context)
+                    .requestFocus(_focusNodes[RESPONDENT_LAST_NAME]);
+              },
+              initialValue: initialValues[RESPONDENT_FIRST_NAME],
+              focusNode: _focusNodes[RESPONDENT_FIRST_NAME],
+              name: RESPONDENT_FIRST_NAME,
+              decoration: InputDecoration(
+                labelText: 'First Name',
+              ),
+              onChanged: (value) {},
+              validator: FormBuilderValidators.compose(
+                [
+                  FormBuilderValidators.required(context),
+                ],
+              ),
+              keyboardType: TextInputType.name,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(20),
+            child: FormBuilderTextField(
+              onSubmitted: (value) {
+                FocusScope.of(context)
+                    .requestFocus(_focusNodes[RESPONDENT_ORGANIZATION_NAME]);
+              },
+              onEditingComplete: () {
+                //_formKey.currentState.save();
+              },
+              initialValue: initialValues[RESPONDENT_LAST_NAME],
+              focusNode: _focusNodes[RESPONDENT_LAST_NAME],
+              name: RESPONDENT_LAST_NAME,
+              decoration: InputDecoration(
+                labelText: 'Last Name',
+              ),
+              onChanged: (value) {},
+              validator: FormBuilderValidators.compose(
+                [
+                  FormBuilderValidators.required(context),
+                ],
+              ),
+              keyboardType: TextInputType.name,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(20),
+            child: Text(
+              '-- or --',
+              style: Theme.of(context).textTheme.bodyText1,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(20),
+            child: FormBuilderTextField(
+              onSubmitted: (value) {
+                FocusScope.of(context)
+                    .requestFocus(_focusNodes[RESPONDENT_STREET_ADDRESS]);
+              },
+              initialValue: initialValues[RESPONDENT_ORGANIZATION_NAME],
+              focusNode: _focusNodes[RESPONDENT_ORGANIZATION_NAME],
+              name: RESPONDENT_ORGANIZATION_NAME,
+              decoration: InputDecoration(
+                labelText: 'Organization Name',
+              ),
+              onChanged: (value) {},
+              validator: FormBuilderValidators.compose(
+                [],
+              ),
+              keyboardType: TextInputType.name,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(20),
+            child: FormBuilderTextField(
+              onSubmitted: (value) {
+                FocusScope.of(context)
+                    .requestFocus(_focusNodes[RESPONDENT_CITY]);
+              },
+              initialValue: initialValues[RESPONDENT_STREET_ADDRESS],
+              focusNode: _focusNodes[RESPONDENT_STREET_ADDRESS],
+              name: RESPONDENT_STREET_ADDRESS,
+              decoration: InputDecoration(
+                labelText: 'Street Address',
+              ),
+              onChanged: (value) {},
+              validator: FormBuilderValidators.compose(
+                [
+                  FormBuilderValidators.required(context),
+                ],
+              ),
+              keyboardType: TextInputType.name,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(20),
+            child: FormBuilderTextField(
+              onSubmitted: (value) {
+                FocusScope.of(context)
+                    .requestFocus(_focusNodes[RESPONDENT_STATE]);
+              },
+              initialValue: initialValues[RESPONDENT_CITY],
+              focusNode: _focusNodes[RESPONDENT_CITY],
+              name: RESPONDENT_CITY,
+              decoration: InputDecoration(
+                labelText: 'City',
+              ),
+              onChanged: (value) {},
+              validator: FormBuilderValidators.compose(
+                [
+                  FormBuilderValidators.required(context),
+                ],
+              ),
+              keyboardType: TextInputType.name,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(20),
+            child: Row(
+              children: [
+                Expanded(
+                  child: FormBuilderDropdown(
+                    onChanged: (state) {
+                      FocusScope.of(context)
+                          .requestFocus(_focusNodes[RESPONDENT_ZIP]);
+                    },
+
+                    name: RESPONDENT_STATE,
+                    decoration: InputDecoration(
+                      labelText: 'State',
+                    ),
+                    // initialValue: 'Male',
+                    allowClear: true,
+                    hint: Text(''),
+                    initialValue: STATES_DROPDOWN_DATA[0]['abbreviation'],
+                    validator: FormBuilderValidators.compose(
+                        [FormBuilderValidators.required(context)]),
+                    items: STATES_DROPDOWN_DATA
+                        .map((state) => DropdownMenuItem(
+                              value: state['abbreviation'],
+                              child: Text('${state['abbreviation']}'),
+                            ))
+                        .toList(),
+                  ),
+                ),
+                SizedBox(width: 20),
+                Expanded(
+                  child: FormBuilderTextField(
+                    onSubmitted: (value) {
+                      FocusScope.of(context)
+                          .requestFocus(_focusNodes[RESPONDENT_PHONE]);
+                    },
+                    focusNode: _focusNodes[RESPONDENT_ZIP],
+                    name: RESPONDENT_ZIP,
+                    decoration: InputDecoration(
+                      labelText: 'Zip',
+                    ),
+                    initialValue: initialValues[RESPONDENT_ZIP],
+                    validator: FormBuilderValidators.compose(
+                      [
+                        FormBuilderValidators.required(context),
+                        FormBuilderValidators.maxLength(context, 5),
+                        FormBuilderValidators.minLength(context, 5),
+                      ],
+                    ),
+                    keyboardType: TextInputType.number,
+                  ),
+                )
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(20),
+            child: FormBuilderTextField(
+              onSubmitted: (value) {
+                FocusScope.of(context)
+                    .requestFocus(_focusNodes[RESPONDENT_EMAIL]);
+              },
+              initialValue: initialValues[RESPONDENT_PHONE],
+              focusNode: _focusNodes[RESPONDENT_PHONE],
+              name: RESPONDENT_PHONE,
+              decoration: InputDecoration(
+                labelText: 'Phone',
+              ),
+              onChanged: (value) {},
+              maxLength: 10,
+              inputFormatters: [
+                _mobileFormatter,
+                FilteringTextInputFormatter.digitsOnly,
+              ],
+              validator: FormBuilderValidators.compose(
+                [
+                  FormBuilderValidators.required(context),
+                ],
+              ),
+              keyboardType: TextInputType.phone,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(20),
+            child: FormBuilderTextField(
+              onSubmitted: (value) {
+                FocusScope.of(context).requestFocus(_focusNodes['?']);
+              },
+              initialValue: initialValues[RESPONDENT_EMAIL],
+              focusNode: _focusNodes[RESPONDENT_EMAIL],
+              name: RESPONDENT_EMAIL,
+              decoration: InputDecoration(
+                labelText: 'Email',
+              ),
+              onChanged: (value) {},
+              inputFormatters: [],
+              validator: FormBuilderValidators.compose(
+                [
+                  FormBuilderValidators.required(context),
+                  FormBuilderValidators.email(context)
+                ],
+              ),
+              keyboardType: TextInputType.emailAddress,
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20),
+            child: Text('Preferred Contact'),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
+            child: FormBuilderRadioGroup(
+              onChanged: (value) {
+                FocusScope.of(context).requestFocus(_focusNodes['?']);
+              },
+              initialValue: initialValues[RESPONDENT_PREFERRED_CONTACT],
+              name: RESPONDENT_PREFERRED_CONTACT,
+              options: [
+                'Phone',
+                'Email',
+                'US Mail',
+              ]
+                  .map(
+                    (option) => FormBuilderFieldOption(
+                      value: option,
+                    ),
+                  )
+                  .toList(
+                    growable: false,
+                  ),
+            ),
+          ),
+          Visibility(
+              visible: _attemptedOrganizationSubmit,
+              child: Center(
+                child: Text(
+                  'Sorry, looks like there\'s an error in your form.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.red.shade700,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              )),
+          Padding(
+            padding: const EdgeInsets.all(20),
+            child: Center(
+              child: CustomButton(
+                buttonColor: Colors.black,
+                text: 'SUBMIT',
+                textColor: Colors.white,
+                onPressed: _submitOrganizationForm,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -193,14 +769,14 @@ class _ComplaintFormPageState extends State<ComplaintFormPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    height: 350,
+                    height: 150,
                     width: double.infinity,
                     decoration: BoxDecoration(
                       image: DecorationImage(
                         image: AssetImage(
-                          IMAGE_1,
+                          IMAGE_MANY_PEOPLE,
                         ),
-                        fit: BoxFit.cover,
+                        fit: BoxFit.contain,
                       ),
                     ),
                   ),
@@ -227,623 +803,43 @@ class _ComplaintFormPageState extends State<ComplaintFormPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      RaisedButton(
-                        color: _isIndividual ? Colors.black : Colors.white,
-                        textColor: _isIndividual ? Colors.white : Colors.black,
-                        onPressed: () {
-                          setState(
-                            () {
-                              _isIndividual = true;
-                              _attemptedIndividualSubmit = false;
-                            },
-                          );
-                        },
-                        child: Text('Individual'),
+                      Expanded(
+                        child: RaisedButton(
+                          color: _isIndividual ? Colors.black : Colors.white,
+                          textColor:
+                              _isIndividual ? Colors.white : Colors.black,
+                          onPressed: () {
+                            setState(
+                              () {
+                                _isIndividual = true;
+                                _attemptedIndividualSubmit = false;
+                              },
+                            );
+                          },
+                          child: Text('Individual'),
+                        ),
                       ),
-                      RaisedButton(
-                        color: _isIndividual ? Colors.white : Colors.black,
-                        textColor: _isIndividual ? Colors.black : Colors.white,
-                        onPressed: () {
-                          setState(
-                            () {
-                              _isIndividual = false;
-                              _attemptedOrganizationSubmit = false;
-                            },
-                          );
-                        },
-                        child: Text('Organization'),
+                      Expanded(
+                        child: RaisedButton(
+                          color: _isIndividual ? Colors.white : Colors.black,
+                          textColor:
+                              _isIndividual ? Colors.black : Colors.white,
+                          onPressed: () {
+                            setState(
+                              () {
+                                _isIndividual = false;
+                                _attemptedOrganizationSubmit = false;
+                              },
+                            );
+                          },
+                          child: Text('Organization'),
+                        ),
                       )
                     ],
                   ),
                   _isIndividual
-                      ? FormBuilder(
-                          key: _individualFormKey,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              biggerTextWidget(
-                                text:
-                                    'Complainant Information (Your Information)',
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(20),
-                                child: FormBuilderTextField(
-                                  onSubmitted: (value) {
-                                    FocusScope.of(context).requestFocus(
-                                        _focusNodes[COMPLAINT_LAST_NAME]);
-                                  },
-                                  initialValue:
-                                      initialValues[COMPLAINT_FIRST_NAME],
-                                  focusNode: _focusNodes[COMPLAINT_FIRST_NAME],
-                                  name: COMPLAINT_FIRST_NAME,
-                                  decoration: InputDecoration(
-                                    labelText: 'First Name',
-                                  ),
-                                  onChanged: (value) {},
-                                  validator: FormBuilderValidators.compose(
-                                    [
-                                      FormBuilderValidators.required(context),
-                                    ],
-                                  ),
-                                  keyboardType: TextInputType.name,
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(20),
-                                child: FormBuilderTextField(
-                                  onSubmitted: (value) {
-                                    FocusScope.of(context).requestFocus(
-                                        _focusNodes[
-                                            COMPLAINT_ORGANIZATION_NAME]);
-                                  },
-                                  onEditingComplete: () {
-                                    //_formKey.currentState.save();
-                                  },
-                                  initialValue:
-                                      initialValues[COMPLAINT_LAST_NAME],
-                                  focusNode: _focusNodes[COMPLAINT_LAST_NAME],
-                                  name: COMPLAINT_LAST_NAME,
-                                  decoration: InputDecoration(
-                                    labelText: 'Last Name',
-                                  ),
-                                  onChanged: (value) {},
-                                  validator: FormBuilderValidators.compose(
-                                    [
-                                      FormBuilderValidators.required(context),
-                                    ],
-                                  ),
-                                  keyboardType: TextInputType.name,
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(20),
-                                child: Text(
-                                  '-- or --',
-                                  style: Theme.of(context).textTheme.bodyText1,
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(20),
-                                child: FormBuilderTextField(
-                                  onSubmitted: (value) {
-                                    FocusScope.of(context).requestFocus(
-                                        _focusNodes[COMPLAINT_STREET_ADDRESS]);
-                                  },
-                                  initialValue: initialValues[
-                                      COMPLAINT_ORGANIZATION_NAME],
-                                  focusNode:
-                                      _focusNodes[COMPLAINT_ORGANIZATION_NAME],
-                                  name: COMPLAINT_ORGANIZATION_NAME,
-                                  decoration: InputDecoration(
-                                    labelText: 'Organization Name',
-                                  ),
-                                  onChanged: (value) {},
-                                  validator: FormBuilderValidators.compose(
-                                    [
-                                      FormBuilderValidators.required(context),
-                                    ],
-                                  ),
-                                  keyboardType: TextInputType.name,
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(20),
-                                child: FormBuilderTextField(
-                                  onSubmitted: (value) {
-                                    FocusScope.of(context).requestFocus(
-                                        _focusNodes[COMPLAINT_CITY]);
-                                  },
-                                  initialValue:
-                                      initialValues[COMPLAINT_STREET_ADDRESS],
-                                  focusNode:
-                                      _focusNodes[COMPLAINT_STREET_ADDRESS],
-                                  name: COMPLAINT_STREET_ADDRESS,
-                                  decoration: InputDecoration(
-                                    labelText: 'Street Address',
-                                  ),
-                                  onChanged: (value) {},
-                                  validator: FormBuilderValidators.compose(
-                                    [
-                                      FormBuilderValidators.required(context),
-                                    ],
-                                  ),
-                                  keyboardType: TextInputType.name,
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(20),
-                                child: FormBuilderTextField(
-                                  onSubmitted: (value) {
-                                    FocusScope.of(context).requestFocus(
-                                        _focusNodes[COMPLAINT_STATE]);
-                                  },
-                                  initialValue: initialValues[COMPLAINT_CITY],
-                                  focusNode: _focusNodes[COMPLAINT_CITY],
-                                  name: COMPLAINT_CITY,
-                                  decoration: InputDecoration(
-                                    labelText: 'City',
-                                  ),
-                                  onChanged: (value) {},
-                                  validator: FormBuilderValidators.compose(
-                                    [
-                                      FormBuilderValidators.required(context),
-                                    ],
-                                  ),
-                                  keyboardType: TextInputType.name,
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(20),
-                                child: Row(
-                                  children: [
-                                    Expanded(
-                                      child: FormBuilderDropdown(
-                                        onChanged: (state) {
-                                          FocusScope.of(context).requestFocus(
-                                              _focusNodes[COMPLAINT_ZIP]);
-                                        },
-
-                                        name: COMPLAINT_STATE,
-                                        decoration: InputDecoration(
-                                          labelText: 'State',
-                                        ),
-                                        // initialValue: 'Male',
-                                        allowClear: true,
-                                        hint: Text(''),
-                                        initialValue: STATES_DROPDOWN_DATA[0]
-                                            ['abbreviation'],
-                                        validator:
-                                            FormBuilderValidators.compose([
-                                          FormBuilderValidators.required(
-                                              context)
-                                        ]),
-                                        items: STATES_DROPDOWN_DATA
-                                            .map((state) => DropdownMenuItem(
-                                                  value: state['abbreviation'],
-                                                  child: Text(
-                                                      '${state['abbreviation']}'),
-                                                ))
-                                            .toList(),
-                                      ),
-                                    ),
-                                    SizedBox(width: 20),
-                                    Expanded(
-                                      child: FormBuilderTextField(
-                                        onSubmitted: (value) {
-                                          FocusScope.of(context).requestFocus(
-                                              _focusNodes[COMPLAINT_PHONE]);
-                                        },
-                                        focusNode: _focusNodes[COMPLAINT_ZIP],
-                                        name: COMPLAINT_ZIP,
-                                        decoration: InputDecoration(
-                                          labelText: 'Zip',
-                                        ),
-                                        initialValue:
-                                            initialValues[COMPLAINT_ZIP],
-                                        validator:
-                                            FormBuilderValidators.compose(
-                                          [
-                                            FormBuilderValidators.required(
-                                                context),
-                                            FormBuilderValidators.maxLength(
-                                                context, 5),
-                                            FormBuilderValidators.minLength(
-                                                context, 5),
-                                          ],
-                                        ),
-                                        keyboardType: TextInputType.number,
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(20),
-                                child: FormBuilderTextField(
-                                  onSubmitted: (value) {
-                                    FocusScope.of(context).requestFocus(
-                                        _focusNodes[COMPLAINT_EMAIL]);
-                                  },
-                                  initialValue: initialValues[COMPLAINT_PHONE],
-                                  focusNode: _focusNodes[COMPLAINT_PHONE],
-                                  name: COMPLAINT_PHONE,
-                                  decoration: InputDecoration(
-                                    labelText: 'Phone',
-                                  ),
-                                  onChanged: (value) {},
-                                  maxLength: 10,
-                                  inputFormatters: [
-                                    _mobileFormatter,
-                                    FilteringTextInputFormatter.digitsOnly,
-                                  ],
-                                  validator: FormBuilderValidators.compose(
-                                    [
-                                      FormBuilderValidators.required(context),
-                                    ],
-                                  ),
-                                  keyboardType: TextInputType.phone,
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(20),
-                                child: FormBuilderTextField(
-                                  onSubmitted: (value) {
-                                    FocusScope.of(context).requestFocus(
-                                        _focusNodes[
-                                            COMPLAINT_PREFERRED_CONTACT]);
-                                  },
-                                  initialValue: initialValues[COMPLAINT_EMAIL],
-                                  focusNode: _focusNodes[COMPLAINT_EMAIL],
-                                  name: COMPLAINT_EMAIL,
-                                  decoration: InputDecoration(
-                                    labelText: 'Email',
-                                  ),
-                                  onChanged: (value) {},
-                                  inputFormatters: [],
-                                  validator: FormBuilderValidators.compose(
-                                    [
-                                      FormBuilderValidators.required(context),
-                                      FormBuilderValidators.email(context)
-                                    ],
-                                  ),
-                                  keyboardType: TextInputType.emailAddress,
-                                ),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 20),
-                                child: Text('Preferred Contact'),
-                              ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.fromLTRB(20, 0, 20, 20),
-                                child: FormBuilderRadioGroup(
-                                  onChanged: (value) {
-                                    FocusScope.of(context)
-                                        .requestFocus(_focusNodes['?']);
-                                  },
-                                  initialValue: initialValues[
-                                      COMPLAINT_PREFERRED_CONTACT],
-                                  name: COMPLAINT_PREFERRED_CONTACT,
-                                  validator:
-                                      FormBuilderValidators.required(context),
-                                  options: [
-                                    'Phone',
-                                    'Email',
-                                    'US Mail',
-                                  ]
-                                      .map(
-                                        (option) => FormBuilderFieldOption(
-                                          value: option,
-                                        ),
-                                      )
-                                      .toList(
-                                        growable: false,
-                                      ),
-                                ),
-                              ),
-                              Visibility(
-                                  visible: _attemptedIndividualSubmit,
-                                  child: Center(
-                                    child: Text(
-                                      'Sorry, looks like there\'s an error in your form.',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        color: Colors.red.shade700,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  )),
-                              Padding(
-                                padding: const EdgeInsets.all(20),
-                                child: Center(
-                                  child: CustomButton(
-                                    buttonColor: Colors.black,
-                                    text: 'SUBMIT',
-                                    textColor: Colors.white,
-                                    onPressed: _submitIndividualForm,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        )
-                      : FormBuilder(
-                          key: _organizationFormKey,
-                          child: Column(
-                            children: [
-                              biggerTextWidget(
-                                text:
-                                    'Respondent Information (Person or Organization that Discriminated)',
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(20),
-                                child: FormBuilderTextField(
-                                  onSubmitted: (value) {
-                                    FocusScope.of(context).requestFocus(
-                                        _focusNodes[RESPONDENT_LAST_NAME]);
-                                  },
-                                  initialValue:
-                                      initialValues[RESPONDENT_FIRST_NAME],
-                                  focusNode: _focusNodes[RESPONDENT_FIRST_NAME],
-                                  name: RESPONDENT_FIRST_NAME,
-                                  decoration: InputDecoration(
-                                    labelText: 'First Name',
-                                  ),
-                                  onChanged: (value) {},
-                                  validator: FormBuilderValidators.compose(
-                                    [
-                                      FormBuilderValidators.required(context),
-                                    ],
-                                  ),
-                                  keyboardType: TextInputType.name,
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(20),
-                                child: FormBuilderTextField(
-                                  onSubmitted: (value) {
-                                    FocusScope.of(context).requestFocus(
-                                        _focusNodes[
-                                            RESPONDENT_ORGANIZATION_NAME]);
-                                  },
-                                  onEditingComplete: () {
-                                    //_formKey.currentState.save();
-                                  },
-                                  initialValue:
-                                      initialValues[RESPONDENT_LAST_NAME],
-                                  focusNode: _focusNodes[RESPONDENT_LAST_NAME],
-                                  name: RESPONDENT_LAST_NAME,
-                                  decoration: InputDecoration(
-                                    labelText: 'Last Name',
-                                  ),
-                                  onChanged: (value) {},
-                                  validator: FormBuilderValidators.compose(
-                                    [
-                                      FormBuilderValidators.required(context),
-                                    ],
-                                  ),
-                                  keyboardType: TextInputType.name,
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(20),
-                                child: Text(
-                                  '-- or --',
-                                  style: Theme.of(context).textTheme.bodyText1,
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(20),
-                                child: FormBuilderTextField(
-                                  onSubmitted: (value) {
-                                    FocusScope.of(context).requestFocus(
-                                        _focusNodes[RESPONDENT_STREET_ADDRESS]);
-                                  },
-                                  initialValue: initialValues[
-                                      RESPONDENT_ORGANIZATION_NAME],
-                                  focusNode:
-                                      _focusNodes[RESPONDENT_ORGANIZATION_NAME],
-                                  name: RESPONDENT_ORGANIZATION_NAME,
-                                  decoration: InputDecoration(
-                                    labelText: 'Organization Name',
-                                  ),
-                                  onChanged: (value) {},
-                                  validator: FormBuilderValidators.compose(
-                                    [
-                                      FormBuilderValidators.required(context),
-                                    ],
-                                  ),
-                                  keyboardType: TextInputType.name,
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(20),
-                                child: FormBuilderTextField(
-                                  onSubmitted: (value) {
-                                    FocusScope.of(context).requestFocus(
-                                        _focusNodes[RESPONDENT_CITY]);
-                                  },
-                                  initialValue:
-                                      initialValues[RESPONDENT_STREET_ADDRESS],
-                                  focusNode:
-                                      _focusNodes[RESPONDENT_STREET_ADDRESS],
-                                  name: RESPONDENT_STREET_ADDRESS,
-                                  decoration: InputDecoration(
-                                    labelText: 'Street Address',
-                                  ),
-                                  onChanged: (value) {},
-                                  validator: FormBuilderValidators.compose(
-                                    [
-                                      FormBuilderValidators.required(context),
-                                    ],
-                                  ),
-                                  keyboardType: TextInputType.name,
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(20),
-                                child: FormBuilderTextField(
-                                  onSubmitted: (value) {
-                                    FocusScope.of(context).requestFocus(
-                                        _focusNodes[RESPONDENT_STATE]);
-                                  },
-                                  initialValue: initialValues[RESPONDENT_CITY],
-                                  focusNode: _focusNodes[RESPONDENT_CITY],
-                                  name: RESPONDENT_CITY,
-                                  decoration: InputDecoration(
-                                    labelText: 'City',
-                                  ),
-                                  onChanged: (value) {},
-                                  validator: FormBuilderValidators.compose(
-                                    [
-                                      FormBuilderValidators.required(context),
-                                    ],
-                                  ),
-                                  keyboardType: TextInputType.name,
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(20),
-                                child: Row(
-                                  children: [
-                                    Expanded(
-                                      child: FormBuilderDropdown(
-                                        onChanged: (state) {
-                                          FocusScope.of(context).requestFocus(
-                                              _focusNodes[RESPONDENT_ZIP]);
-                                        },
-
-                                        name: RESPONDENT_STATE,
-                                        decoration: InputDecoration(
-                                          labelText: 'State',
-                                        ),
-                                        // initialValue: 'Male',
-                                        allowClear: true,
-                                        hint: Text(''),
-                                        initialValue: STATES_DROPDOWN_DATA[0]
-                                            ['abbreviation'],
-                                        validator:
-                                            FormBuilderValidators.compose([
-                                          FormBuilderValidators.required(
-                                              context)
-                                        ]),
-                                        items: STATES_DROPDOWN_DATA
-                                            .map((state) => DropdownMenuItem(
-                                                  value: state['abbreviation'],
-                                                  child: Text(
-                                                      '${state['abbreviation']}'),
-                                                ))
-                                            .toList(),
-                                      ),
-                                    ),
-                                    SizedBox(width: 20),
-                                    Expanded(
-                                      child: FormBuilderTextField(
-                                        onSubmitted: (value) {
-                                          FocusScope.of(context).requestFocus(
-                                              _focusNodes[RESPONDENT_PHONE]);
-                                        },
-                                        focusNode: _focusNodes[RESPONDENT_ZIP],
-                                        name: RESPONDENT_ZIP,
-                                        decoration: InputDecoration(
-                                          labelText: 'Zip',
-                                        ),
-                                        initialValue:
-                                            initialValues[RESPONDENT_ZIP],
-                                        validator:
-                                            FormBuilderValidators.compose(
-                                          [
-                                            FormBuilderValidators.required(
-                                                context),
-                                            FormBuilderValidators.maxLength(
-                                                context, 5),
-                                            FormBuilderValidators.minLength(
-                                                context, 5),
-                                          ],
-                                        ),
-                                        keyboardType: TextInputType.number,
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(20),
-                                child: FormBuilderTextField(
-                                  onSubmitted: (value) {
-                                    FocusScope.of(context).requestFocus(
-                                        _focusNodes[RESPONDENT_EMAIL]);
-                                  },
-                                  initialValue: initialValues[RESPONDENT_PHONE],
-                                  focusNode: _focusNodes[RESPONDENT_PHONE],
-                                  name: RESPONDENT_PHONE,
-                                  decoration: InputDecoration(
-                                    labelText: 'Phone',
-                                  ),
-                                  onChanged: (value) {},
-                                  maxLength: 10,
-                                  inputFormatters: [
-                                    _mobileFormatter,
-                                    FilteringTextInputFormatter.digitsOnly,
-                                  ],
-                                  validator: FormBuilderValidators.compose(
-                                    [
-                                      FormBuilderValidators.required(context),
-                                    ],
-                                  ),
-                                  keyboardType: TextInputType.phone,
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(20),
-                                child: FormBuilderTextField(
-                                  onSubmitted: (value) {
-                                    FocusScope.of(context)
-                                        .requestFocus(_focusNodes['?']);
-                                  },
-                                  initialValue: initialValues[RESPONDENT_EMAIL],
-                                  focusNode: _focusNodes[RESPONDENT_EMAIL],
-                                  name: RESPONDENT_EMAIL,
-                                  decoration: InputDecoration(
-                                    labelText: 'Email',
-                                  ),
-                                  onChanged: (value) {},
-                                  inputFormatters: [],
-                                  validator: FormBuilderValidators.compose(
-                                    [
-                                      FormBuilderValidators.required(context),
-                                      FormBuilderValidators.email(context)
-                                    ],
-                                  ),
-                                  keyboardType: TextInputType.emailAddress,
-                                ),
-                              ),
-                              Visibility(
-                                  visible: _attemptedOrganizationSubmit,
-                                  child: Center(
-                                    child: Text(
-                                      'Sorry, looks like there\'s an error in your form.',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        color: Colors.red.shade700,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  )),
-                              Padding(
-                                padding: const EdgeInsets.all(20),
-                                child: Center(
-                                  child: CustomButton(
-                                    buttonColor: Colors.black,
-                                    text: 'SUBMIT',
-                                    textColor: Colors.white,
-                                    onPressed: _submitOrganizationForm,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                      ? _buildIndividualForm()
+                      : _buildOrganizationForm()
                 ],
               ),
             );

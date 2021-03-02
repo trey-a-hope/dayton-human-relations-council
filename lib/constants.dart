@@ -62,32 +62,49 @@ const List<dynamic> STATES_DROPDOWN_DATA = [
   {'name': 'Wyoming', 'abbreviation': 'WY'},
 ];
 
-const String COMPLAINT_FIRST_NAME = 'complaint_first_name';
-const String COMPLAINT_LAST_NAME = 'complaint_last_name';
-const String COMPLAINT_ORGANIZATION_NAME = 'complaint_organization_name';
-const String COMPLAINT_STREET_ADDRESS = 'complaint_street_address';
-const String COMPLAINT_CITY = 'complaint_city';
-const String COMPLAINT_STATE = 'complaint_state';
-const String COMPLAINT_ZIP = 'complaint_zip';
-const String COMPLAINT_PHONE = 'complaint_phone';
-const String COMPLAINT_EMAIL = 'complaint_email';
-const String COMPLAINT_PREFERRED_CONTACT = 'complaint_preferred_contact';
-const String RESPONDENT_FIRST_NAME = 'respondent_first_name';
-const String RESPONDENT_LAST_NAME = 'respondent_last_name';
-const String RESPONDENT_ORGANIZATION_NAME = 'respondent_organization_name';
-const String RESPONDENT_STREET_ADDRESS = 'respondent_street_address';
-const String RESPONDENT_CITY = 'respondent_city';
-const String RESPONDENT_STATE = 'respondent_state';
-const String RESPONDENT_ZIP = 'respondent_zip';
-const String RESPONDENT_PHONE = 'respondent_phone';
-const String RESPONDENT_EMAIL = 'respondent_email';
-const String RESPONDENT_PREFERRED_CONTACT = 'respondent_preferred_contact';
-const String TYPE_OF_COMPLAINT = 'type_of_complaint';
-const String DISCRIMINATION_CLASS = 'discrimination_class';
-const String LAST_DISCRIMINATORY_ACT = 'last_discriminatory_act';
-const String WHY_RESPONDENT_DESCRIMINATED = 'why_respondent_discriminated';
-const String COMPLAINT_FILED_WITH_OTHER_ORG = 'complaint_filed_with_other_org';
+//Individual
+const String INDIVIDUAL_FIRST_NAME = 'individual_first_name';
+const String INDIVIDUAL_LAST_NAME = 'individual_last_name';
+const String INDIVIDUAL_ORGANIZATION_NAME = 'individual_organization_name';
+const String INDIVIDUAL_STREET_ADDRESS = 'individual_street_address';
+const String INDIVIDUAL_CITY = 'individual_city';
+const String INDIVIDUAL_STATE = 'individual_state';
+const String INDIVIDUAL_ZIP = 'individual_zip';
+const String INDIVIDUAL_PHONE = 'individual_phone';
+const String INDIVIDUAL_EMAIL = 'individual_email';
+const String INDIVIDUAL_PREFERRED_CONTACT = 'individual_preferred_contact';
+const String INDIVIDUAL_TYPE_OF_COMPLAINT = 'individual_type_of_complaint';
+const String INDIVIDUAL_DISCRIMINATION_CLASS =
+    'individual_discrimination_class';
+const String INDIVIDUAL_LAST_DISCRIMINATORY_ACT =
+    'individual_last_discriminatory_act';
+const String INDIVIDUAL_WHY_RESPONDENT_DESCRIMINATED =
+    'individual_why_respondent_discriminated';
+const String INDIVIDUAL_COMPLAINT_FILED_WITH_OTHER_ORG =
+    'individual_complaint_filed_with_other_org';
 
+//Organization
+const String ORGANIZATION_FIRST_NAME = 'respondent_first_name';
+const String ORGANIZATION_LAST_NAME = 'respondent_last_name';
+const String ORGANIZATION_ORGANIZATION_NAME = 'respondent_organization_name';
+const String ORGANIZATION_STREET_ADDRESS = 'respondent_street_address';
+const String ORGANIZATION_CITY = 'respondent_city';
+const String ORGANIZATION_STATE = 'respondent_state';
+const String ORGANIZATION_ZIP = 'respondent_zip';
+const String ORGANIZATION_PHONE = 'respondent_phone';
+const String ORGANIZATION_EMAIL = 'respondent_email';
+const String ORGANIZATION_PREFERRED_CONTACT = 'respondent_preferred_contact';
+const String ORGANIZATION_TYPE_OF_COMPLAINT = 'respondent_type_of_complaint';
+const String ORGANIZATION_DISCRIMINATION_CLASS =
+    'respondent_discrimination_class';
+const String ORGANIZATION_LAST_DISCRIMINATORY_ACT =
+    'respondent_last_discriminatory_act';
+const String ORGANIZATION_WHY_RESPONDENT_DESCRIMINATED =
+    'respondent_why_respondent_discriminated';
+const String ORGANIZATION_COMPLAINT_FILED_WITH_OTHER_ORG =
+    'respondent_complaint_filed_with_other_org';
+
+//Images
 const String IMAGE_1 = 'assets/images/image_1.jpg';
 const String IMAGE_2 = 'assets/images/image_2.jpg';
 const String IMAGE_3 = 'assets/images/image_3.png';

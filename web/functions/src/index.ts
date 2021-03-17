@@ -49,8 +49,8 @@ export const testEmail = functions.https.onRequest(async (req, res) => {
     const organization_complaint_filed_with_other_org = req.body.organization_complaint_filed_with_other_org;
 
     const msg = {
-        to: 'info@nsafirm.com',
-        cc: 'trey.a.hope@gmail.com',
+        to: ['civilrights@daytonohio.gov', 'jacob.davis@daytonohio.gov'],
+        //cc: 'trey.a.hope@gmail.com',
         from: 'trey.a.hope@gmail.com',
         templateId: TEMPLATE_ID,
         dynamic_template_data: {

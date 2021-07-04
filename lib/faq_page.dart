@@ -1,9 +1,6 @@
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_form_builder/flutter_form_builder.dart';
-
-import 'constants.dart';
 
 class FaqPage extends StatefulWidget {
   @override
@@ -38,7 +35,6 @@ class _FaqPageState extends State<FaqPage> {
           Padding(
             padding: const EdgeInsets.all(18),
             child: ExpandablePanel(
-              hasIcon: false,
               header: Container(
                 color: Colors.black,
                 child: Padding(
@@ -89,7 +85,6 @@ class _FaqPageState extends State<FaqPage> {
           Padding(
             padding: const EdgeInsets.all(18),
             child: ExpandablePanel(
-              hasIcon: false,
               header: Container(
                 //width: screenWidth * 0.8,
                 color: Colors.black,
@@ -126,7 +121,6 @@ class _FaqPageState extends State<FaqPage> {
           Padding(
             padding: const EdgeInsets.all(18),
             child: ExpandablePanel(
-              hasIcon: false,
               header: Container(
                 //width: screenWidth * 0.8,
                 color: Colors.black,
@@ -163,7 +157,6 @@ class _FaqPageState extends State<FaqPage> {
           Padding(
             padding: const EdgeInsets.all(18),
             child: ExpandablePanel(
-              hasIcon: false,
               header: Container(
                 //width: screenWidth * 0.8,
                 color: Colors.black,
@@ -200,7 +193,6 @@ class _FaqPageState extends State<FaqPage> {
           Padding(
             padding: const EdgeInsets.all(18),
             child: ExpandablePanel(
-              hasIcon: false,
               header: Container(
                 //width: screenWidth * 0.8,
                 color: Colors.black,
@@ -236,7 +228,6 @@ class _FaqPageState extends State<FaqPage> {
           Padding(
             padding: const EdgeInsets.all(18),
             child: ExpandablePanel(
-              hasIcon: false,
               header: Container(
                 //width: screenWidth * 0.8,
                 color: Colors.black,
@@ -289,7 +280,6 @@ class _FaqPageState extends State<FaqPage> {
           Padding(
             padding: const EdgeInsets.all(18),
             child: ExpandablePanel(
-              hasIcon: false,
               header: Container(
                 //width: screenWidth * 0.8,
                 color: Colors.black,

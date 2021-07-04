@@ -92,32 +92,32 @@ class _ComplaintFormPageState extends State<ComplaintFormPage> {
     };
   }
 
-  void fillFormWithDummyData() {
-    initialValues = {
-      // COMPLAINT_FIRST_NAME: 'Chris',
-      // COMPLAINT_LAST_NAME: 'Farwell',
-      // COMPLAINT_ORGANIZATION_NAME: 'Water Co.',
-      // COMPLAINT_STREET_ADDRESS: '38 Stillwater Mill Street',
-      // COMPLAINT_CITY: 'Jensonburg',
-      // COMPLAINT_ZIP: '02933',
-      // COMPLAINT_PHONE: '2003949200',
-      // COMPLAINT_EMAIL: 'farwellc@aol.com',
-      // COMPLAINT_PREFERRED_CONTACT: 'Phone',
-      // RESPONDENT_FIRST_NAME: 'Marcus',
-      // RESPONDENT_LAST_NAME: 'Stillwater',
-      // RESPONDENT_ORGANIZATION_NAME: 'Wahoo Co.',
-      // RESPONDENT_STREET_ADDRESS: '2080 Valley Forge Dr.',
-      // RESPONDENT_CITY: 'Kettering',
-      // RESPONDENT_ZIP: '45480',
-      // RESPONDENT_PHONE: '9378849494',
-      // RESPONDENT_EMAIL: 'mstillwater@gmail.com',
-      // LAST_DISCRIMINATORY_ACT:
-      //     'I\'m not completely sure, but I feel like it was sometime last year.',
-      // WHY_RESPONDENT_DESCRIMINATED:
-      //     'The reason he did that was because he has no control.',
-      // COMPLAINT_FILED_WITH_OTHER_ORG: 'No I have not.'
-    };
-  }
+  // void fillFormWithDummyData() {
+  //   initialValues = {
+  // COMPLAINT_FIRST_NAME: 'Chris',
+  // COMPLAINT_LAST_NAME: 'Farwell',
+  // COMPLAINT_ORGANIZATION_NAME: 'Water Co.',
+  // COMPLAINT_STREET_ADDRESS: '38 Stillwater Mill Street',
+  // COMPLAINT_CITY: 'Jensonburg',
+  // COMPLAINT_ZIP: '02933',
+  // COMPLAINT_PHONE: '2003949200',
+  // COMPLAINT_EMAIL: 'farwellc@aol.com',
+  // COMPLAINT_PREFERRED_CONTACT: 'Phone',
+  // RESPONDENT_FIRST_NAME: 'Marcus',
+  // RESPONDENT_LAST_NAME: 'Stillwater',
+  // RESPONDENT_ORGANIZATION_NAME: 'Wahoo Co.',
+  // RESPONDENT_STREET_ADDRESS: '2080 Valley Forge Dr.',
+  // RESPONDENT_CITY: 'Kettering',
+  // RESPONDENT_ZIP: '45480',
+  // RESPONDENT_PHONE: '9378849494',
+  // RESPONDENT_EMAIL: 'mstillwater@gmail.com',
+  // LAST_DISCRIMINATORY_ACT:
+  //     'I\'m not completely sure, but I feel like it was sometime last year.',
+  // WHY_RESPONDENT_DESCRIMINATED:
+  //     'The reason he did that was because he has no control.',
+  // COMPLAINT_FILED_WITH_OTHER_ORG: 'No I have not.'
+  //   };
+  // }
 
   void _submitIndividualForm() async {
     _individualFormKey.currentState.save();
@@ -1118,10 +1118,11 @@ class _ComplaintFormPageState extends State<ComplaintFormPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Expanded(
-                        child: RaisedButton(
-                          color: _isIndividual ? Colors.black : Colors.white,
-                          textColor:
-                              _isIndividual ? Colors.white : Colors.black,
+                        child: ElevatedButton(
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all<Color>(
+                                _isIndividual ? Colors.black : Colors.white),
+                          ),
                           onPressed: () {
                             setState(
                               () {
@@ -1130,14 +1131,21 @@ class _ComplaintFormPageState extends State<ComplaintFormPage> {
                               },
                             );
                           },
-                          child: Text('Individual'),
+                          child: Text(
+                            'Individual',
+                            style: TextStyle(
+                              color:
+                                  _isIndividual ? Colors.white : Colors.black,
+                            ),
+                          ),
                         ),
                       ),
                       Expanded(
-                        child: RaisedButton(
-                          color: _isIndividual ? Colors.white : Colors.black,
-                          textColor:
-                              _isIndividual ? Colors.black : Colors.white,
+                        child: ElevatedButton(
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all<Color>(
+                                _isIndividual ? Colors.white : Colors.black),
+                          ),
                           onPressed: () {
                             setState(
                               () {
@@ -1146,7 +1154,13 @@ class _ComplaintFormPageState extends State<ComplaintFormPage> {
                               },
                             );
                           },
-                          child: Text('Organization'),
+                          child: Text(
+                            'Organization',
+                            style: TextStyle(
+                              color:
+                                  _isIndividual ? Colors.black : Colors.white,
+                            ),
+                          ),
                         ),
                       )
                     ],

@@ -1,7 +1,7 @@
 name: dayton_human_relations_council
 description: A new Flutter project.
 
-version: 1.0.6+6
+version: 1.0.7+7
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -9,20 +9,20 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  cached_network_image: ^2.5.0
-  cupertino_icons: ^1.0.0
-  equatable: ^1.2.5
-  expandable: ^4.1.4
-  flutter_bloc: ^6.1.1
-  flutter_form_builder: ^4.2.0
-  get_it: ^5.0.3
-  http: ^0.12.2
-  intl: ^0.16.1
-  package_info: ^0.4.3+2
-  rxdart: ^0.25.0
-  shared_preferences: ^0.5.12+4
-  url_launcher: ^5.7.10
-  uuid: ^2.2.2
+  cached_network_image: ^3.0.0
+  cupertino_icons: ^1.0.3
+  equatable: ^2.0.3
+  expandable: ^5.0.1
+  flutter_bloc: ^7.0.1
+  flutter_form_builder: ^6.0.1
+  get_it:
+  http: ^0.13.3
+  intl: ^0.17.0
+  package_info: ^2.0.2
+  rxdart: ^0.27.1
+  shared_preferences: ^2.0.6
+  url_launcher: ^6.0.8
+  uuid: ^3.0.4
 
 dev_dependencies:
   flutter_test:

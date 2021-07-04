@@ -1,3 +1,8 @@
+//Endpoints
+const String EMAIL_ENDPOINT =
+    'https://us-central1-dayton-human-relations-council.cloudfunctions.net/testEmail';
+
+//Emails
 const String SERVICE_EMAIL = 'civilrights@daytonohio.gov';
 
 const List<dynamic> STATES_DROPDOWN_DATA = [

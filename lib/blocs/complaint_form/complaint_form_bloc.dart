@@ -35,109 +35,109 @@ class ComplaintFormBloc extends Bloc<ComplaintFormEvent, ComplaintFormState> {
     if (event is SubmitComplaintFormEvent) {
       final Map<String, dynamic> formData = event.formData;
 
-      final String individual_firstName = formData[INDIVIDUAL_FIRST_NAME];
-      final String individual_lastName = formData[INDIVIDUAL_LAST_NAME];
-      final String individual_organization_name =
+      final String individualFirstName = formData[INDIVIDUAL_FIRST_NAME];
+      final String individualLastName = formData[INDIVIDUAL_LAST_NAME];
+      final String individualOrganizationName =
           formData[INDIVIDUAL_ORGANIZATION_NAME];
-      final String individual_street_address =
+      final String individualStreetAddress =
           formData[INDIVIDUAL_STREET_ADDRESS];
-      final String individual_city = formData[INDIVIDUAL_CITY];
-      final String individual_state = formData[INDIVIDUAL_STATE];
-      final String individual_zip = formData[INDIVIDUAL_ZIP];
-      final String individual_phone = formData[INDIVIDUAL_PHONE];
-      final String individual_email = formData[INDIVIDUAL_EMAIL];
-      final String individual_preferred_contact =
+      final String individualCity = formData[INDIVIDUAL_CITY];
+      final String individualState = formData[INDIVIDUAL_STATE];
+      final String individualZip = formData[INDIVIDUAL_ZIP];
+      final String individualPhone = formData[INDIVIDUAL_PHONE];
+      final String individualEmail = formData[INDIVIDUAL_EMAIL];
+      final String individualPreferredContact =
           formData[INDIVIDUAL_PREFERRED_CONTACT];
-      final List<String> individual_type_of_complaint =
+      final List<String> individualTypeOfComplaint =
           formData[INDIVIDUAL_TYPE_OF_COMPLAINT] ?? [];
-      final List<String> individual_discrimination_class =
+      final List<String> individualDiscriminationClass =
           formData[INDIVIDUAL_DISCRIMINATION_CLASS] ?? [];
-      final String individual_last_discriminatory_act =
+      final String individualLastDiscriminatoryAct =
           formData[INDIVIDUAL_LAST_DISCRIMINATORY_ACT];
-      final String individual_why_respondent_discriminated =
+      final String individualWhyRespondentDiscriminated =
           formData[INDIVIDUAL_WHY_RESPONDENT_DESCRIMINATED];
-      final String individual_complaint_filed_with_other_org =
+      final String individualComplaintFiledWithOtherOrg =
           formData[INDIVIDUAL_COMPLAINT_FILED_WITH_OTHER_ORG];
 
-      final String organization_first_name = formData[ORGANIZATION_FIRST_NAME];
-      final String organization_last_name = formData[ORGANIZATION_LAST_NAME];
-      final String organization_organization_name =
+      final String organizationFirstName = formData[ORGANIZATION_FIRST_NAME];
+      final String organizationLastName = formData[ORGANIZATION_LAST_NAME];
+      final String organizationOrganizationName =
           formData[ORGANIZATION_ORGANIZATION_NAME];
-      final String organization_street_address =
+      final String organizationStreetAddress =
           formData[ORGANIZATION_STREET_ADDRESS];
-      final String organization_city = formData[ORGANIZATION_CITY];
-      final String organization_state = formData[ORGANIZATION_STATE];
-      final String organization_zip = formData[ORGANIZATION_ZIP];
-      final String organization_phone = formData[ORGANIZATION_PHONE];
-      final String organization_email = formData[ORGANIZATION_EMAIL];
-      final String organization_preferred_contact =
+      final String organizationCity = formData[ORGANIZATION_CITY];
+      final String organizationState = formData[ORGANIZATION_STATE];
+      final String organizationZip = formData[ORGANIZATION_ZIP];
+      final String organizationPhone = formData[ORGANIZATION_PHONE];
+      final String organizationEmail = formData[ORGANIZATION_EMAIL];
+      final String organizationPreferredContact =
           formData[ORGANIZATION_PREFERRED_CONTACT];
-      final List<String> organization_type_of_complaint =
+      final List<String> organizationTypeOfComplaint =
           formData[ORGANIZATION_TYPE_OF_COMPLAINT] ?? [];
-      final List<String> organization_discrimination_class =
+      final List<String> organizationDiscriminationClass =
           formData[ORGANIZATION_DISCRIMINATION_CLASS] ?? [];
-      final String organization_last_discriminatory_act =
+      final String organizationLastDiscriminatoryAct =
           formData[ORGANIZATION_LAST_DISCRIMINATORY_ACT];
-      final String organization_why_respondent_discriminated =
+      final String organizationWhyRespondentDiscriminated =
           formData[ORGANIZATION_WHY_RESPONDENT_DESCRIMINATED];
-      final String organization_complaint_filed_with_other_org =
+      final String organizationComplaintFiledWithOtherOrg =
           formData[ORGANIZATION_COMPLAINT_FILED_WITH_OTHER_ORG];
 
       print(formData);
 
       try {
         http.Response response = await http.post(
-          'https://us-central1-dayton-human-relations-council.cloudfunctions.net/testEmail',
+          Uri.parse(EMAIL_ENDPOINT),
           body: {
-            'individual_firstName': individual_firstName ?? '',
-            'individual_lastName': individual_lastName ?? '',
-            'individual_organization_name': individual_organization_name ?? '',
-            'individual_street_address': individual_street_address ?? '',
-            'individual_city': individual_city ?? '',
-            'individual_state': individual_state ?? '',
-            'individual_zip': individual_zip ?? '',
-            'individual_phone': individual_phone ?? '',
-            'individual_email': individual_email ?? '',
-            'individual_preferred_contact': individual_preferred_contact ?? '',
-            'individual_type_of_complaint': individual_type_of_complaint != null
-                ? individual_type_of_complaint.join(', ')
+            'individual_firstName': individualFirstName ?? '',
+            'individual_lastName': individualLastName ?? '',
+            'individual_organization_name': individualOrganizationName ?? '',
+            'individual_street_address': individualStreetAddress ?? '',
+            'individual_city': individualCity ?? '',
+            'individual_state': individualState ?? '',
+            'individual_zip': individualZip ?? '',
+            'individual_phone': individualPhone ?? '',
+            'individual_email': individualEmail ?? '',
+            'individual_preferred_contact': individualPreferredContact ?? '',
+            'individual_type_of_complaint': individualTypeOfComplaint != null
+                ? individualTypeOfComplaint.join(', ')
                 : '',
             'individual_discrimination_class':
-                individual_discrimination_class != null
-                    ? individual_discrimination_class.join(', ')
+                individualDiscriminationClass != null
+                    ? individualDiscriminationClass.join(', ')
                     : '',
             'individual_last_discriminatory_act':
-                individual_last_discriminatory_act ?? '',
+                individualLastDiscriminatoryAct ?? '',
             'individual_why_respondent_discriminated':
-                individual_why_respondent_discriminated ?? '',
+                individualWhyRespondentDiscriminated ?? '',
             'individual_complaint_filed_with_other_org':
-                individual_complaint_filed_with_other_org ?? '',
-            'organization_first_name': organization_first_name ?? '',
-            'organization_last_name': organization_last_name ?? '',
+                individualComplaintFiledWithOtherOrg ?? '',
+            'organization_first_name': organizationFirstName ?? '',
+            'organization_last_name': organizationLastName ?? '',
             'organization_organization_name':
-                organization_organization_name ?? '',
-            'organization_street_address': organization_street_address ?? '',
-            'organization_city': organization_city ?? '',
-            'organization_state': organization_state ?? '',
-            'organization_zip': organization_zip ?? '',
-            'organization_phone': organization_phone ?? '',
-            'organization_email': organization_email ?? '',
+                organizationOrganizationName ?? '',
+            'organization_street_address': organizationStreetAddress ?? '',
+            'organization_city': organizationCity ?? '',
+            'organization_state': organizationState ?? '',
+            'organization_zip': organizationZip ?? '',
+            'organization_phone': organizationPhone ?? '',
+            'organization_email': organizationEmail ?? '',
             'organization_preferred_contact':
-                organization_preferred_contact ?? '',
+                organizationPreferredContact ?? '',
             'organization_type_of_complaint':
-                organization_type_of_complaint != null
-                    ? organization_type_of_complaint.join(', ')
+                organizationTypeOfComplaint != null
+                    ? organizationTypeOfComplaint.join(', ')
                     : '',
             'organization_discrimination_class':
-                organization_discrimination_class != null
-                    ? organization_discrimination_class.join(', ')
+                organizationDiscriminationClass != null
+                    ? organizationDiscriminationClass.join(', ')
                     : '',
             'organization_last_discriminatory_act':
-                organization_last_discriminatory_act ?? '',
+                organizationLastDiscriminatoryAct ?? '',
             'organization_why_respondent_discriminated':
-                organization_why_respondent_discriminated ?? '',
+                organizationWhyRespondentDiscriminated ?? '',
             'organization_complaint_filed_with_other_org':
-                organization_complaint_filed_with_other_org ?? '',
+                organizationComplaintFiledWithOtherOrg ?? '',
           },
           headers: {'content-type': 'application/x-www-form-urlencoded'},
         );

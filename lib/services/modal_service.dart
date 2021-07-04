@@ -5,7 +5,6 @@ import 'package:dayton_human_relations_council/services/validation_service.dart'
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-
 abstract class IModalService {
   void showInSnackBar(
       {@required BuildContext context, @required String message});
@@ -25,16 +24,11 @@ class ModalService extends IModalService {
   @override
   void showInSnackBar(
       {@required BuildContext context, @required String message}) {
-    Scaffold.of(context).showSnackBar(
+    ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(message),
       ),
     );
-    // ScaffoldMessenger.of(context).showSnackBar(
-    //   SnackBar(
-    //     content: Text(message),
-    //   ),
-    // );
   }
 
   @override
@@ -64,7 +58,7 @@ class ModalService extends IModalService {
             title: Text(title),
             content: Text(message),
             actions: <Widget>[
-              FlatButton(
+              TextButton(
                 child: const Text('OK'),
                 onPressed: () {
                   Navigator.of(context).pop();
@@ -107,13 +101,13 @@ class ModalService extends IModalService {
             ),
           ),
           actions: <Widget>[
-            FlatButton(
+            TextButton(
               child: const Text('CANCEL'),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
-            FlatButton(
+            TextButton(
               child: const Text('SUBMIT'),
               onPressed: () {
                 if (!formKey.currentState.validate()) return;
@@ -161,13 +155,13 @@ class ModalService extends IModalService {
             title: Text(title),
             content: Text(message),
             actions: <Widget>[
-              FlatButton(
+              TextButton(
                 child: const Text('NO', style: TextStyle(color: Colors.black)),
                 onPressed: () {
                   Navigator.of(context).pop(false);
                 },
               ),
-              FlatButton(
+              TextButton(
                 child: const Text('YES', style: TextStyle(color: Colors.black)),
                 onPressed: () {
                   Navigator.of(context).pop(true);

@@ -114,3 +114,7 @@ const String IMAGE_1 = 'assets/images/image_1.jpg';
 const String IMAGE_2 = 'assets/images/image_2.jpg';
 const String IMAGE_3 = 'assets/images/image_3.png';
 const String IMAGE_MANY_PEOPLE = 'assets/images/many_people.jpg';
+
+//GLOBAL VARIABLES
+String version;
+String buildNumber;

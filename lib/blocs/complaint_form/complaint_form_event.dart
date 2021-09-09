@@ -11,7 +11,7 @@ class SubmitComplaintFormEvent extends ComplaintFormEvent {
   final Map<String, dynamic> formData;
 
   SubmitComplaintFormEvent({
-    @required this.formData,
+    required this.formData,
   });
 
   List<Object> get props => [

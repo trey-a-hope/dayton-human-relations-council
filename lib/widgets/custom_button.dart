@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 
 class CustomButton extends StatelessWidget {
-  final Function onPressed;
+  final VoidCallback onPressed;
   final String text;
   final Color buttonColor;
   final Color textColor;
 
-  CustomButton(
-      {Key key,
-      @required this.onPressed,
-      @required this.text,
-      @required this.buttonColor,
-      @required this.textColor})
-      : super(key: key);
+  CustomButton({
+    Key? key,
+    required this.onPressed,
+    required this.text,
+    required this.buttonColor,
+    required this.textColor,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

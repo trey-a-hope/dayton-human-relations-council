@@ -1,6 +1,6 @@
+import 'package:dayton_human_relations_council/widgets/custom_general_text_widget.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class FaqPage extends StatefulWidget {
   @override
@@ -25,9 +25,10 @@ class _FaqPageState extends State<FaqPage> {
       ),
       body: ListView(
         children: [
-          biggerTextWidget(
+          CustomGeneralTextWidget(
             text:
                 'The Human Relations Council attempts to resolve all issues in the timeliest manner possible. In order to save time and better serve residents of the City of Dayton, we have compiled a list of civil rights frequently asked questions. Tap a question to find your answer.',
+            style: Theme.of(context).textTheme.bodyText1!,
           ),
           SizedBox(
             height: 20,
@@ -314,17 +315,6 @@ class _FaqPageState extends State<FaqPage> {
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  Widget biggerTextWidget({@required String text}) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
-      child: Text(
-        text,
-        style: Theme.of(context).textTheme.headline6,
-        textAlign: TextAlign.center,
       ),
     );
   }

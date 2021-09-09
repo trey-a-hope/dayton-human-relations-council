@@ -11,13 +11,10 @@ class _ComplaintFormPageState extends State<ComplaintFormPage> {
       GlobalKey<FormBuilderState>();
   final GlobalKey<FormBuilderState> _organizationFormKey =
       GlobalKey<FormBuilderState>();
-
   final NumberTextInputFormatter _mobileFormatter = NumberTextInputFormatter();
 
-  bool _attemptedIndividualSubmit = false;
-  bool _attemptedOrganizationSubmit = false;
-
-  Map<String, FocusNode> _focusNodes;
+  late Map<String, FocusNode> _focusNodes;
+  late Map<String, TextEditingController> _controllers;
 
   bool _isIndividual = true;
 
@@ -58,6 +55,7 @@ class _ComplaintFormPageState extends State<ComplaintFormPage> {
   void initState() {
     super.initState();
 
+    //Create focus nodes for each form field.
     _focusNodes = {
       INDIVIDUAL_FIRST_NAME: FocusNode(),
       INDIVIDUAL_LAST_NAME: FocusNode(),
@@ -90,52 +88,66 @@ class _ComplaintFormPageState extends State<ComplaintFormPage> {
       ORGANIZATION_WHY_RESPONDENT_DESCRIMINATED: FocusNode(),
       ORGANIZATION_COMPLAINT_FILED_WITH_OTHER_ORG: FocusNode(),
     };
+
+    _focusNodes.forEach((key, value) {
+      _controllers.addAll({key: TextEditingController()});
+    });
+
+    // _fillFormWithDummyData();/NOTE: Only use when testing.
   }
 
-  // void fillFormWithDummyData() {
-  //   initialValues = {
-  // COMPLAINT_FIRST_NAME: 'Chris',
-  // COMPLAINT_LAST_NAME: 'Farwell',
-  // COMPLAINT_ORGANIZATION_NAME: 'Water Co.',
-  // COMPLAINT_STREET_ADDRESS: '38 Stillwater Mill Street',
-  // COMPLAINT_CITY: 'Jensonburg',
-  // COMPLAINT_ZIP: '02933',
-  // COMPLAINT_PHONE: '2003949200',
-  // COMPLAINT_EMAIL: 'farwellc@aol.com',
-  // COMPLAINT_PREFERRED_CONTACT: 'Phone',
-  // RESPONDENT_FIRST_NAME: 'Marcus',
-  // RESPONDENT_LAST_NAME: 'Stillwater',
-  // RESPONDENT_ORGANIZATION_NAME: 'Wahoo Co.',
-  // RESPONDENT_STREET_ADDRESS: '2080 Valley Forge Dr.',
-  // RESPONDENT_CITY: 'Kettering',
-  // RESPONDENT_ZIP: '45480',
-  // RESPONDENT_PHONE: '9378849494',
-  // RESPONDENT_EMAIL: 'mstillwater@gmail.com',
-  // LAST_DISCRIMINATORY_ACT:
-  //     'I\'m not completely sure, but I feel like it was sometime last year.',
-  // WHY_RESPONDENT_DESCRIMINATED:
-  //     'The reason he did that was because he has no control.',
-  // COMPLAINT_FILED_WITH_OTHER_ORG: 'No I have not.'
-  //   };
-  // }
+  @override
+  void dispose() {
+    _focusNodes.forEach((key, value) {
+      _focusNodes[key]!.dispose();
+    });
+    super.dispose();
+  }
+
+  void _fillFormWithDummyData() {
+    initialValues = {
+      INDIVIDUAL_FIRST_NAME: 'Trey',
+      INDIVIDUAL_LAST_NAME: 'Hope',
+      INDIVIDUAL_ORGANIZATION_NAME: 'tr3Designs',
+      INDIVIDUAL_STREET_ADDRESS: '123 Street',
+      INDIVIDUAL_CITY: 'Trotwood',
+      INDIVIDUAL_STATE: 'OH',
+      INDIVIDUAL_ZIP: '45426',
+      INDIVIDUAL_PHONE: '9373052027',
+      INDIVIDUAL_EMAIL: 'trey.a.hope@gmail.com',
+      INDIVIDUAL_PREFERRED_CONTACT: 'phone',
+      INDIVIDUAL_TYPE_OF_COMPLAINT: null,
+      INDIVIDUAL_DISCRIMINATION_CLASS: null,
+      INDIVIDUAL_LAST_DISCRIMINATORY_ACT: null,
+      INDIVIDUAL_WHY_RESPONDENT_DESCRIMINATED: null,
+      INDIVIDUAL_COMPLAINT_FILED_WITH_OTHER_ORG: null,
+      ORGANIZATION_FIRST_NAME: 'abcBLocks',
+      ORGANIZATION_LAST_NAME: 'null',
+      ORGANIZATION_ORGANIZATION_NAME: 'null',
+      ORGANIZATION_STREET_ADDRESS: '937 Ave.',
+      ORGANIZATION_CITY: 'Wager',
+      ORGANIZATION_STATE: 'WI',
+      ORGANIZATION_ZIP: '39399',
+      ORGANIZATION_PHONE: '3383338838',
+      ORGANIZATION_EMAIL: 'wagerw@wull.com',
+      ORGANIZATION_PREFERRED_CONTACT: null,
+      ORGANIZATION_TYPE_OF_COMPLAINT: null,
+      ORGANIZATION_DISCRIMINATION_CLASS: null,
+      ORGANIZATION_LAST_DISCRIMINATORY_ACT: null,
+      ORGANIZATION_WHY_RESPONDENT_DESCRIMINATED: null,
+      ORGANIZATION_COMPLAINT_FILED_WITH_OTHER_ORG: null,
+    };
+  }
 
   void _submitIndividualForm() async {
-    _individualFormKey.currentState.save();
+    final FormBuilderState formBuilderState = _individualFormKey.currentState!;
 
-    final FormBuilderState formBuilderState = _individualFormKey.currentState;
+    if (!formBuilderState.saveAndValidate()) return;
 
-    if (!formBuilderState.saveAndValidate()) {
-      setState(() {
-        _attemptedIndividualSubmit = true;
-      });
-
-      return;
-    }
-
-    final bool confirm = await locator<ModalService>().showConfirmation(
+    final bool? confirm = await locator<ModalService>().showConfirmation(
         context: context, title: 'Submit Form', message: 'Are you sure?');
 
-    if (!confirm) return;
+    if (confirm == null || !confirm) return;
 
     Map<String, dynamic> formData = formBuilderState.value;
 
@@ -145,22 +157,15 @@ class _ComplaintFormPageState extends State<ComplaintFormPage> {
   }
 
   void _submitOrganizationForm() async {
-    _organizationFormKey.currentState.save();
+    final FormBuilderState formBuilderState =
+        _organizationFormKey.currentState!;
 
-    final FormBuilderState formBuilderState = _organizationFormKey.currentState;
+    if (!formBuilderState.saveAndValidate()) return;
 
-    if (!formBuilderState.saveAndValidate()) {
-      setState(() {
-        _attemptedOrganizationSubmit = true;
-      });
-
-      return;
-    }
-
-    final bool confirm = await locator<ModalService>().showConfirmation(
+    final bool? confirm = await locator<ModalService>().showConfirmation(
         context: context, title: 'Submit Form', message: 'Are you sure?');
 
-    if (!confirm) return;
+    if (confirm == null || !confirm) return;
 
     Map<String, dynamic> formData = formBuilderState.value;
 
@@ -171,16 +176,19 @@ class _ComplaintFormPageState extends State<ComplaintFormPage> {
 
   FormBuilder _buildIndividualForm() {
     return FormBuilder(
+      autoFocusOnValidationFailure: true,
       key: _individualFormKey,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          biggerTextWidget(
+          CustomGeneralTextWidget(
             text: 'Complainant Information (Your Information)',
+            style: Theme.of(context).textTheme.bodyText1!,
           ),
           Padding(
             padding: const EdgeInsets.all(20),
             child: FormBuilderTextField(
+              controller: _controllers[INDIVIDUAL_FIRST_NAME],
               onSubmitted: (value) {
                 FocusScope.of(context)
                     .requestFocus(_focusNodes[INDIVIDUAL_LAST_NAME]);
@@ -211,6 +219,7 @@ class _ComplaintFormPageState extends State<ComplaintFormPage> {
                 //_formKey.currentState.save();
               },
               initialValue: initialValues[INDIVIDUAL_LAST_NAME],
+              controller: _controllers[INDIVIDUAL_LAST_NAME],
               focusNode: _focusNodes[INDIVIDUAL_LAST_NAME],
               name: INDIVIDUAL_LAST_NAME,
               decoration: InputDecoration(
@@ -240,6 +249,7 @@ class _ComplaintFormPageState extends State<ComplaintFormPage> {
                     .requestFocus(_focusNodes[INDIVIDUAL_STREET_ADDRESS]);
               },
               initialValue: initialValues[INDIVIDUAL_ORGANIZATION_NAME],
+              controller: _controllers[INDIVIDUAL_ORGANIZATION_NAME],
               focusNode: _focusNodes[INDIVIDUAL_ORGANIZATION_NAME],
               name: INDIVIDUAL_ORGANIZATION_NAME,
               decoration: InputDecoration(
@@ -260,6 +270,7 @@ class _ComplaintFormPageState extends State<ComplaintFormPage> {
                     .requestFocus(_focusNodes[INDIVIDUAL_CITY]);
               },
               initialValue: initialValues[INDIVIDUAL_STREET_ADDRESS],
+              controller: _controllers[INDIVIDUAL_STREET_ADDRESS],
               focusNode: _focusNodes[INDIVIDUAL_STREET_ADDRESS],
               name: INDIVIDUAL_STREET_ADDRESS,
               decoration: InputDecoration(
@@ -282,6 +293,7 @@ class _ComplaintFormPageState extends State<ComplaintFormPage> {
                     .requestFocus(_focusNodes[INDIVIDUAL_STATE]);
               },
               initialValue: initialValues[INDIVIDUAL_CITY],
+              controller: _controllers[INDIVIDUAL_CITY],
               focusNode: _focusNodes[INDIVIDUAL_CITY],
               name: INDIVIDUAL_CITY,
               decoration: InputDecoration(
@@ -315,6 +327,7 @@ class _ComplaintFormPageState extends State<ComplaintFormPage> {
                     allowClear: true,
                     hint: Text(''),
                     initialValue: STATES_DROPDOWN_DATA[0]['abbreviation'],
+
                     validator: FormBuilderValidators.compose(
                         [FormBuilderValidators.required(context)]),
                     items: STATES_DROPDOWN_DATA
@@ -338,6 +351,7 @@ class _ComplaintFormPageState extends State<ComplaintFormPage> {
                       labelText: 'Zip',
                     ),
                     initialValue: initialValues[INDIVIDUAL_ZIP],
+                    controller: _controllers[INDIVIDUAL_ZIP],
                     validator: FormBuilderValidators.compose(
                       [
                         FormBuilderValidators.required(context),
@@ -359,6 +373,7 @@ class _ComplaintFormPageState extends State<ComplaintFormPage> {
                     .requestFocus(_focusNodes[INDIVIDUAL_EMAIL]);
               },
               initialValue: initialValues[INDIVIDUAL_PHONE],
+              controller: _controllers[INDIVIDUAL_PHONE],
               focusNode: _focusNodes[INDIVIDUAL_PHONE],
               name: INDIVIDUAL_PHONE,
               decoration: InputDecoration(
@@ -386,6 +401,7 @@ class _ComplaintFormPageState extends State<ComplaintFormPage> {
                     .requestFocus(_focusNodes[INDIVIDUAL_PREFERRED_CONTACT]);
               },
               initialValue: initialValues[INDIVIDUAL_EMAIL],
+              controller: _controllers[INDIVIDUAL_EMAIL],
               focusNode: _focusNodes[INDIVIDUAL_EMAIL],
               name: INDIVIDUAL_EMAIL,
               decoration: InputDecoration(
@@ -414,11 +430,7 @@ class _ComplaintFormPageState extends State<ComplaintFormPage> {
               },
               initialValue: initialValues[INDIVIDUAL_PREFERRED_CONTACT],
               name: INDIVIDUAL_PREFERRED_CONTACT,
-              options: [
-                'Phone',
-                'Email',
-                'US Mail',
-              ]
+              options: preferredContactOptions
                   .map(
                     (option) => FormBuilderFieldOption(
                       value: option,
@@ -439,12 +451,7 @@ class _ComplaintFormPageState extends State<ComplaintFormPage> {
               onChanged: (value) {
                 FocusScope.of(context).requestFocus(_focusNodes['?']);
               },
-              options: [
-                'Employment',
-                'Housing',
-                'Credit Transaction',
-                'Public Accomodation'
-              ]
+              options: complaintOptions
                   .map(
                     (option) => FormBuilderFieldOption(
                       value: option,
@@ -467,21 +474,7 @@ class _ComplaintFormPageState extends State<ComplaintFormPage> {
               onChanged: (value) {
                 FocusScope.of(context).requestFocus(_focusNodes['?']);
               },
-              options: [
-                'Race',
-                'Color',
-                'Religion',
-                'Sex/Gender (includes sexual harrassment)',
-                'Sexual Orientation',
-                'Gender Indentity',
-                'National Origin',
-                'Ancestry',
-                'Age',
-                'Marital Status',
-                'Family Status (housing discrimination only)',
-                'Disability/Handicap',
-                'Place of Birth (employment credit transaction, and public accomodation only)'
-              ]
+              options: discriminationClasses
                   .map(
                     (option) => FormBuilderFieldOption(
                       value: option,
@@ -511,6 +504,7 @@ class _ComplaintFormPageState extends State<ComplaintFormPage> {
                     _focusNodes[INDIVIDUAL_WHY_RESPONDENT_DESCRIMINATED]);
               },
               initialValue: initialValues[INDIVIDUAL_LAST_DISCRIMINATORY_ACT],
+              controller: _controllers[INDIVIDUAL_LAST_DISCRIMINATORY_ACT],
               focusNode: _focusNodes[INDIVIDUAL_LAST_DISCRIMINATORY_ACT],
               name: INDIVIDUAL_LAST_DISCRIMINATORY_ACT,
               onChanged: (value) {},
@@ -540,6 +534,7 @@ class _ComplaintFormPageState extends State<ComplaintFormPage> {
               },
               initialValue:
                   initialValues[INDIVIDUAL_WHY_RESPONDENT_DESCRIMINATED],
+              controller: _controllers[INDIVIDUAL_WHY_RESPONDENT_DESCRIMINATED],
               focusNode: _focusNodes[INDIVIDUAL_WHY_RESPONDENT_DESCRIMINATED],
               name: INDIVIDUAL_WHY_RESPONDENT_DESCRIMINATED,
               onChanged: (value) {},
@@ -568,6 +563,8 @@ class _ComplaintFormPageState extends State<ComplaintFormPage> {
               },
               initialValue:
                   initialValues[INDIVIDUAL_COMPLAINT_FILED_WITH_OTHER_ORG],
+              controller:
+                  _controllers[INDIVIDUAL_COMPLAINT_FILED_WITH_OTHER_ORG],
               focusNode: _focusNodes[INDIVIDUAL_COMPLAINT_FILED_WITH_OTHER_ORG],
               name: INDIVIDUAL_COMPLAINT_FILED_WITH_OTHER_ORG,
               onChanged: (value) {},
@@ -577,18 +574,6 @@ class _ComplaintFormPageState extends State<ComplaintFormPage> {
               keyboardType: TextInputType.text,
             ),
           ),
-          Visibility(
-              visible: _attemptedIndividualSubmit,
-              child: Center(
-                child: Text(
-                  'Sorry, looks like there\'s an error in your form.',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.red.shade700,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              )),
           Padding(
             padding: const EdgeInsets.all(20),
             child: Center(
@@ -600,6 +585,10 @@ class _ComplaintFormPageState extends State<ComplaintFormPage> {
               ),
             ),
           ),
+          Padding(
+            padding: const EdgeInsets.all(20),
+            child: Text('\n\nApp Version: $version ($buildNumber)'),
+          )
         ],
       ),
     );
@@ -607,13 +596,15 @@ class _ComplaintFormPageState extends State<ComplaintFormPage> {
 
   FormBuilder _buildOrganizationForm() {
     return FormBuilder(
+      autoFocusOnValidationFailure: true,
       key: _organizationFormKey,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          biggerTextWidget(
+          CustomGeneralTextWidget(
             text:
                 'Respondent Information (Person or Organization that Discriminated)',
+            style: Theme.of(context).textTheme.bodyText1!,
           ),
           Padding(
             padding: const EdgeInsets.all(20),
@@ -623,6 +614,7 @@ class _ComplaintFormPageState extends State<ComplaintFormPage> {
                     .requestFocus(_focusNodes[ORGANIZATION_LAST_NAME]);
               },
               initialValue: initialValues[ORGANIZATION_FIRST_NAME],
+              controller: _controllers[ORGANIZATION_FIRST_NAME],
               focusNode: _focusNodes[ORGANIZATION_FIRST_NAME],
               name: ORGANIZATION_FIRST_NAME,
               decoration: InputDecoration(
@@ -648,6 +640,7 @@ class _ComplaintFormPageState extends State<ComplaintFormPage> {
                 //_formKey.currentState.save();
               },
               initialValue: initialValues[ORGANIZATION_LAST_NAME],
+              controller: _controllers[ORGANIZATION_LAST_NAME],
               focusNode: _focusNodes[ORGANIZATION_LAST_NAME],
               name: ORGANIZATION_LAST_NAME,
               decoration: InputDecoration(
@@ -677,6 +670,7 @@ class _ComplaintFormPageState extends State<ComplaintFormPage> {
                     .requestFocus(_focusNodes[ORGANIZATION_STREET_ADDRESS]);
               },
               initialValue: initialValues[ORGANIZATION_ORGANIZATION_NAME],
+              controller: _controllers[ORGANIZATION_ORGANIZATION_NAME],
               focusNode: _focusNodes[ORGANIZATION_ORGANIZATION_NAME],
               name: ORGANIZATION_ORGANIZATION_NAME,
               decoration: InputDecoration(
@@ -697,6 +691,7 @@ class _ComplaintFormPageState extends State<ComplaintFormPage> {
                     .requestFocus(_focusNodes[ORGANIZATION_CITY]);
               },
               initialValue: initialValues[ORGANIZATION_STREET_ADDRESS],
+              controller: _controllers[ORGANIZATION_STREET_ADDRESS],
               focusNode: _focusNodes[ORGANIZATION_STREET_ADDRESS],
               name: ORGANIZATION_STREET_ADDRESS,
               decoration: InputDecoration(
@@ -719,6 +714,7 @@ class _ComplaintFormPageState extends State<ComplaintFormPage> {
                     .requestFocus(_focusNodes[ORGANIZATION_STATE]);
               },
               initialValue: initialValues[ORGANIZATION_CITY],
+              controller: _controllers[ORGANIZATION_CITY],
               focusNode: _focusNodes[ORGANIZATION_CITY],
               name: ORGANIZATION_CITY,
               decoration: InputDecoration(
@@ -775,6 +771,7 @@ class _ComplaintFormPageState extends State<ComplaintFormPage> {
                       labelText: 'Zip',
                     ),
                     initialValue: initialValues[ORGANIZATION_ZIP],
+                    controller: _controllers[ORGANIZATION_ZIP],
                     validator: FormBuilderValidators.compose(
                       [
                         FormBuilderValidators.required(context),
@@ -796,6 +793,7 @@ class _ComplaintFormPageState extends State<ComplaintFormPage> {
                     .requestFocus(_focusNodes[ORGANIZATION_EMAIL]);
               },
               initialValue: initialValues[ORGANIZATION_PHONE],
+              controller: _controllers[ORGANIZATION_PHONE],
               focusNode: _focusNodes[ORGANIZATION_PHONE],
               name: ORGANIZATION_PHONE,
               decoration: InputDecoration(
@@ -822,6 +820,7 @@ class _ComplaintFormPageState extends State<ComplaintFormPage> {
                 FocusScope.of(context).requestFocus(_focusNodes['?']);
               },
               initialValue: initialValues[ORGANIZATION_EMAIL],
+              controller: _controllers[ORGANIZATION_EMAIL],
               focusNode: _focusNodes[ORGANIZATION_EMAIL],
               name: ORGANIZATION_EMAIL,
               decoration: InputDecoration(
@@ -850,11 +849,7 @@ class _ComplaintFormPageState extends State<ComplaintFormPage> {
               },
               initialValue: initialValues[ORGANIZATION_PREFERRED_CONTACT],
               name: ORGANIZATION_PREFERRED_CONTACT,
-              options: [
-                'Phone',
-                'Email',
-                'US Mail',
-              ]
+              options: preferredContactOptions
                   .map(
                     (option) => FormBuilderFieldOption(
                       value: option,
@@ -875,12 +870,7 @@ class _ComplaintFormPageState extends State<ComplaintFormPage> {
               onChanged: (value) {
                 FocusScope.of(context).requestFocus(_focusNodes['?']);
               },
-              options: [
-                'Employment',
-                'Housing',
-                'Credit Transaction',
-                'Public Accomodation'
-              ]
+              options: complaintOptions
                   .map(
                     (option) => FormBuilderFieldOption(
                       value: option,
@@ -903,21 +893,7 @@ class _ComplaintFormPageState extends State<ComplaintFormPage> {
               onChanged: (value) {
                 FocusScope.of(context).requestFocus(_focusNodes['?']);
               },
-              options: [
-                'Race',
-                'Color',
-                'Religion',
-                'Sex/Gender (includes sexual harrassment)',
-                'Sexual Orientation',
-                'Gender Indentity',
-                'National Origin',
-                'Ancestry',
-                'Age',
-                'Marital Status',
-                'Family Status (housing discrimination only)',
-                'Disability/Handicap',
-                'Place of Birth (employment credit transaction, and public accomodation only)'
-              ]
+              options: discriminationClasses
                   .map(
                     (option) => FormBuilderFieldOption(
                       value: option,
@@ -947,6 +923,7 @@ class _ComplaintFormPageState extends State<ComplaintFormPage> {
                     _focusNodes[ORGANIZATION_WHY_RESPONDENT_DESCRIMINATED]);
               },
               initialValue: initialValues[ORGANIZATION_LAST_DISCRIMINATORY_ACT],
+              controller: _controllers[ORGANIZATION_LAST_DISCRIMINATORY_ACT],
               focusNode: _focusNodes[ORGANIZATION_LAST_DISCRIMINATORY_ACT],
               name: ORGANIZATION_LAST_DISCRIMINATORY_ACT,
               onChanged: (value) {},
@@ -976,6 +953,8 @@ class _ComplaintFormPageState extends State<ComplaintFormPage> {
               },
               initialValue:
                   initialValues[ORGANIZATION_WHY_RESPONDENT_DESCRIMINATED],
+              controller:
+                  _controllers[ORGANIZATION_WHY_RESPONDENT_DESCRIMINATED],
               focusNode: _focusNodes[ORGANIZATION_WHY_RESPONDENT_DESCRIMINATED],
               name: ORGANIZATION_WHY_RESPONDENT_DESCRIMINATED,
               onChanged: (value) {},
@@ -1004,6 +983,8 @@ class _ComplaintFormPageState extends State<ComplaintFormPage> {
               },
               initialValue:
                   initialValues[ORGANIZATION_COMPLAINT_FILED_WITH_OTHER_ORG],
+              controller:
+                  _controllers[ORGANIZATION_COMPLAINT_FILED_WITH_OTHER_ORG],
               focusNode:
                   _focusNodes[ORGANIZATION_COMPLAINT_FILED_WITH_OTHER_ORG],
               name: ORGANIZATION_COMPLAINT_FILED_WITH_OTHER_ORG,
@@ -1014,18 +995,6 @@ class _ComplaintFormPageState extends State<ComplaintFormPage> {
               keyboardType: TextInputType.text,
             ),
           ),
-          Visibility(
-              visible: _attemptedOrganizationSubmit,
-              child: Center(
-                child: Text(
-                  'Sorry, looks like there\'s an error in your form.',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.red.shade700,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              )),
           Padding(
             padding: const EdgeInsets.all(20),
             child: Center(
@@ -1094,23 +1063,34 @@ class _ComplaintFormPageState extends State<ComplaintFormPage> {
                       ),
                     ),
                   ),
-                  biggerTextWidget(
-                      text: 'Civil Rights Discrimination Complaint Form'),
-                  generalTextWidget(
+                  CustomGeneralTextWidget(
+                    text: 'Civil Rights Discrimination Complaint Form',
+                    style: Theme.of(context).textTheme.bodyText1!,
+                  ),
+                  CustomGeneralTextWidget(
                       text:
-                          'The City of Dayton Human Relations Council accepts complaints of unlawful discrimination in housing, employment, credit transactions, and public accommodations. If you feel that you have been discriminated against in one of these areas based on one or more of the protected classes listed below, you may be eligible to file a complaint against the person or organization that discriminated against you.'),
-                  generalTextWidget(
-                      text:
-                          'If you believe that you have been the victim of discrimination, you can download and fill this complaint form or file a complaint in person at:'),
-                  generalTextWidget(
-                      text:
-                          'The Human Relations Council, 371 West Second Street, Suite 100, Dayton, Ohio 45402'),
-                  generalTextWidget(
-                      text:
-                          'You can also fill out the online form below and a member of our Civil Rights team will contact you as soon as possible.'),
-                  generalTextWidget(
-                      text:
-                          'There is no cost to file a complaint and no attorney is needed for us to investigate your complaint.'),
+                          'The City of Dayton Human Relations Council accepts complaints of unlawful discrimination in housing, employment, credit transactions, and public accommodations. If you feel that you have been discriminated against in one of these areas based on one or more of the protected classes listed below, you may be eligible to file a complaint against the person or organization that discriminated against you.',
+                      style: Theme.of(context).textTheme.headline6!),
+                  CustomGeneralTextWidget(
+                    text:
+                        'If you believe that you have been the victim of discrimination, you can download and fill this complaint form or file a complaint in person at:',
+                    style: Theme.of(context).textTheme.headline6!,
+                  ),
+                  CustomGeneralTextWidget(
+                    text:
+                        'The Human Relations Council, 371 West Second Street, Suite 100, Dayton, Ohio 45402',
+                    style: Theme.of(context).textTheme.headline6!,
+                  ),
+                  CustomGeneralTextWidget(
+                    text:
+                        'You can also fill out the online form below and a member of our Civil Rights team will contact you as soon as possible.',
+                    style: Theme.of(context).textTheme.headline6!,
+                  ),
+                  CustomGeneralTextWidget(
+                    text:
+                        'There is no cost to file a complaint and no attorney is needed for us to investigate your complaint.',
+                    style: Theme.of(context).textTheme.headline6!,
+                  ),
                   SizedBox(
                     height: 20,
                   ),
@@ -1127,7 +1107,6 @@ class _ComplaintFormPageState extends State<ComplaintFormPage> {
                             setState(
                               () {
                                 _isIndividual = true;
-                                _attemptedIndividualSubmit = false;
                               },
                             );
                           },
@@ -1150,7 +1129,6 @@ class _ComplaintFormPageState extends State<ComplaintFormPage> {
                             setState(
                               () {
                                 _isIndividual = false;
-                                _attemptedOrganizationSubmit = false;
                               },
                             );
                           },
@@ -1264,35 +1242,9 @@ class _ComplaintFormPageState extends State<ComplaintFormPage> {
           return Container();
         },
         listener: (context, state) {
-          if (state is ComplaintFormInitialState) {
-            if (_isIndividual) {
-              _attemptedIndividualSubmit = true;
-            } else {
-              _attemptedOrganizationSubmit = true;
-            }
-          }
+          if (state is ComplaintFormInitialState) {}
           if (state is ComplaintFormErrorState) {}
         },
-      ),
-    );
-  }
-
-  Widget generalTextWidget({@required String text}) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
-      child: Text(
-        text,
-        style: Theme.of(context).textTheme.bodyText1,
-      ),
-    );
-  }
-
-  Widget biggerTextWidget({@required String text}) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
-      child: Text(
-        text,
-        style: Theme.of(context).textTheme.headline6,
       ),
     );
   }

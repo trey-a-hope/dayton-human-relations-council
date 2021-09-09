@@ -6,24 +6,34 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 abstract class IModalService {
-  void showInSnackBar(
-      {@required BuildContext context, @required String message});
+  void showInSnackBar({
+    required BuildContext context,
+    required String message,
+  });
 
-  void showAlert(
-      {@required BuildContext context,
-      @required String title,
-      @required String message});
-  Future<String> showChangeEmail({@required BuildContext context});
-  Future<bool> showConfirmation(
-      {@required BuildContext context,
-      @required String title,
-      @required String message});
+  void showAlert({
+    required BuildContext context,
+    required String title,
+    required String message,
+  });
+
+  Future<String?> showChangeEmail({
+    required BuildContext context,
+  });
+
+  Future<bool?> showConfirmation({
+    required BuildContext context,
+    required String title,
+    required String message,
+  });
 }
 
 class ModalService extends IModalService {
   @override
-  void showInSnackBar(
-      {@required BuildContext context, @required String message}) {
+  void showInSnackBar({
+    required BuildContext context,
+    required String message,
+  }) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(message),
@@ -32,10 +42,11 @@ class ModalService extends IModalService {
   }
 
   @override
-  void showAlert(
-      {@required BuildContext context,
-      @required String title,
-      @required String message}) {
+  void showAlert({
+    required BuildContext context,
+    required String title,
+    required String message,
+  }) {
     showDialog(
       context: context,
       builder: (BuildContext buildContext) {
@@ -72,7 +83,7 @@ class ModalService extends IModalService {
   }
 
   @override
-  Future<String> showChangeEmail({@required BuildContext context}) {
+  Future<String?> showChangeEmail({required BuildContext context}) {
     final TextEditingController emailController = TextEditingController();
     final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
@@ -110,7 +121,7 @@ class ModalService extends IModalService {
             TextButton(
               child: const Text('SUBMIT'),
               onPressed: () {
-                if (!formKey.currentState.validate()) return;
+                if (!formKey.currentState!.validate()) return;
                 Navigator.of(context).pop(emailController.text);
               },
             )
@@ -121,10 +132,11 @@ class ModalService extends IModalService {
   }
 
   @override
-  Future<bool> showConfirmation(
-      {@required BuildContext context,
-      @required String title,
-      @required String message}) {
+  Future<bool?> showConfirmation({
+    required BuildContext context,
+    required String title,
+    required String message,
+  }) {
     return showDialog<bool>(
       barrierDismissible: false,
       context: context,

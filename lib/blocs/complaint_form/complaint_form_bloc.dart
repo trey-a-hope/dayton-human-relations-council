@@ -1,11 +1,11 @@
 import 'dart:async';
 import 'dart:convert' show json;
 
-import 'package:bloc/bloc.dart';
 import 'package:dayton_human_relations_council/constants.dart';
 import 'package:dayton_human_relations_council/faq_page.dart';
 import 'package:dayton_human_relations_council/service_locator.dart';
 import 'package:dayton_human_relations_council/services/modal_service.dart';
+import 'package:dayton_human_relations_council/widgets/custom_general_text_widget.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -35,52 +35,52 @@ class ComplaintFormBloc extends Bloc<ComplaintFormEvent, ComplaintFormState> {
     if (event is SubmitComplaintFormEvent) {
       final Map<String, dynamic> formData = event.formData;
 
-      final String individualFirstName = formData[INDIVIDUAL_FIRST_NAME];
-      final String individualLastName = formData[INDIVIDUAL_LAST_NAME];
-      final String individualOrganizationName =
+      final String? individualFirstName = formData[INDIVIDUAL_FIRST_NAME];
+      final String? individualLastName = formData[INDIVIDUAL_LAST_NAME];
+      final String? individualOrganizationName =
           formData[INDIVIDUAL_ORGANIZATION_NAME];
-      final String individualStreetAddress =
+      final String? individualStreetAddress =
           formData[INDIVIDUAL_STREET_ADDRESS];
-      final String individualCity = formData[INDIVIDUAL_CITY];
-      final String individualState = formData[INDIVIDUAL_STATE];
-      final String individualZip = formData[INDIVIDUAL_ZIP];
-      final String individualPhone = formData[INDIVIDUAL_PHONE];
-      final String individualEmail = formData[INDIVIDUAL_EMAIL];
-      final String individualPreferredContact =
+      final String? individualCity = formData[INDIVIDUAL_CITY];
+      final String? individualState = formData[INDIVIDUAL_STATE];
+      final String? individualZip = formData[INDIVIDUAL_ZIP];
+      final String? individualPhone = formData[INDIVIDUAL_PHONE];
+      final String? individualEmail = formData[INDIVIDUAL_EMAIL];
+      final String? individualPreferredContact =
           formData[INDIVIDUAL_PREFERRED_CONTACT];
-      final List<String> individualTypeOfComplaint =
+      final List<String>? individualTypeOfComplaint =
           formData[INDIVIDUAL_TYPE_OF_COMPLAINT] ?? [];
-      final List<String> individualDiscriminationClass =
+      final List<String>? individualDiscriminationClass =
           formData[INDIVIDUAL_DISCRIMINATION_CLASS] ?? [];
-      final String individualLastDiscriminatoryAct =
+      final String? individualLastDiscriminatoryAct =
           formData[INDIVIDUAL_LAST_DISCRIMINATORY_ACT];
-      final String individualWhyRespondentDiscriminated =
+      final String? individualWhyRespondentDiscriminated =
           formData[INDIVIDUAL_WHY_RESPONDENT_DESCRIMINATED];
-      final String individualComplaintFiledWithOtherOrg =
+      final String? individualComplaintFiledWithOtherOrg =
           formData[INDIVIDUAL_COMPLAINT_FILED_WITH_OTHER_ORG];
 
-      final String organizationFirstName = formData[ORGANIZATION_FIRST_NAME];
-      final String organizationLastName = formData[ORGANIZATION_LAST_NAME];
-      final String organizationOrganizationName =
+      final String? organizationFirstName = formData[ORGANIZATION_FIRST_NAME];
+      final String? organizationLastName = formData[ORGANIZATION_LAST_NAME];
+      final String? organizationOrganizationName =
           formData[ORGANIZATION_ORGANIZATION_NAME];
-      final String organizationStreetAddress =
+      final String? organizationStreetAddress =
           formData[ORGANIZATION_STREET_ADDRESS];
-      final String organizationCity = formData[ORGANIZATION_CITY];
-      final String organizationState = formData[ORGANIZATION_STATE];
-      final String organizationZip = formData[ORGANIZATION_ZIP];
-      final String organizationPhone = formData[ORGANIZATION_PHONE];
-      final String organizationEmail = formData[ORGANIZATION_EMAIL];
-      final String organizationPreferredContact =
+      final String? organizationCity = formData[ORGANIZATION_CITY];
+      final String? organizationState = formData[ORGANIZATION_STATE];
+      final String? organizationZip = formData[ORGANIZATION_ZIP];
+      final String? organizationPhone = formData[ORGANIZATION_PHONE];
+      final String? organizationEmail = formData[ORGANIZATION_EMAIL];
+      final String? organizationPreferredContact =
           formData[ORGANIZATION_PREFERRED_CONTACT];
-      final List<String> organizationTypeOfComplaint =
+      final List<String>? organizationTypeOfComplaint =
           formData[ORGANIZATION_TYPE_OF_COMPLAINT] ?? [];
-      final List<String> organizationDiscriminationClass =
+      final List<String>? organizationDiscriminationClass =
           formData[ORGANIZATION_DISCRIMINATION_CLASS] ?? [];
-      final String organizationLastDiscriminatoryAct =
+      final String? organizationLastDiscriminatoryAct =
           formData[ORGANIZATION_LAST_DISCRIMINATORY_ACT];
-      final String organizationWhyRespondentDiscriminated =
+      final String? organizationWhyRespondentDiscriminated =
           formData[ORGANIZATION_WHY_RESPONDENT_DESCRIMINATED];
-      final String organizationComplaintFiledWithOtherOrg =
+      final String? organizationComplaintFiledWithOtherOrg =
           formData[ORGANIZATION_COMPLAINT_FILED_WITH_OTHER_ORG];
 
       print(formData);
@@ -142,7 +142,9 @@ class ComplaintFormBloc extends Bloc<ComplaintFormEvent, ComplaintFormState> {
           headers: {'content-type': 'application/x-www-form-urlencoded'},
         );
 
-        if (json.decode(response.body) == true) {
+        dynamic res = json.decode(response.body);
+
+        if (res[0]['statusCode'] == 200) {
           yield ComplaintFormSuccessState();
         } else {
           throw Exception('This did not work.');

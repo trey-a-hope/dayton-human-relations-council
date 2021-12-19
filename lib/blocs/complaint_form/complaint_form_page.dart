@@ -14,7 +14,7 @@ class _ComplaintFormPageState extends State<ComplaintFormPage> {
   final NumberTextInputFormatter _mobileFormatter = NumberTextInputFormatter();
 
   late Map<String, FocusNode> _focusNodes;
-  late Map<String, TextEditingController> _controllers;
+  Map<String, TextEditingController> _controllers = {};
 
   bool _isIndividual = true;
 

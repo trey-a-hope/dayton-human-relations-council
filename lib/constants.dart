@@ -140,7 +140,7 @@ const List<String> complaintOptions = [
   'Employment',
   'Housing',
   'Credit Transaction',
-  'Public Accomodation'
+  'Public Accommodation'
 ];
 
 const List<String> preferredContactOptions = [

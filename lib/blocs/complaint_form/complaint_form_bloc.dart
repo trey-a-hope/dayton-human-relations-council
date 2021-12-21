@@ -142,9 +142,7 @@ class ComplaintFormBloc extends Bloc<ComplaintFormEvent, ComplaintFormState> {
           headers: {'content-type': 'application/x-www-form-urlencoded'},
         );
 
-        dynamic res = json.decode(response.body);
-
-        if (res[0]['statusCode'] == 200) {
+        if (response.statusCode == 200) {
           yield ComplaintFormSuccessState();
         } else {
           throw Exception('This did not work.');

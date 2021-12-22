@@ -585,10 +585,7 @@ class _ComplaintFormPageState extends State<ComplaintFormPage> {
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(20),
-            child: Text('\n\nApp Version: $version ($buildNumber)'),
-          )
+          AppVersionText(),
         ],
       ),
     );
@@ -1006,6 +1003,7 @@ class _ComplaintFormPageState extends State<ComplaintFormPage> {
               ),
             ),
           ),
+          AppVersionText(),
         ],
       ),
     );

@@ -1,10 +1,9 @@
 import 'dart:async';
-import 'dart:convert' show json;
-
 import 'package:dayton_human_relations_council/constants.dart';
 import 'package:dayton_human_relations_council/faq_page.dart';
 import 'package:dayton_human_relations_council/service_locator.dart';
 import 'package:dayton_human_relations_council/services/modal_service.dart';
+import 'package:dayton_human_relations_council/widgets/app_version_text.dart';
 import 'package:dayton_human_relations_council/widgets/custom_general_text_widget.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';

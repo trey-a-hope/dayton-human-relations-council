@@ -10,13 +10,3 @@
 ![IMG_2788_iphone13promaxgraphite_portrait](https://user-images.githubusercontent.com/99027548/179419521-9e04e114-ca57-4119-ac1f-8166adc87f0a.png)
 ![IMG_2789_iphone13promaxgraphite_portrait](https://user-images.githubusercontent.com/99027548/179419522-abd74e54-cfa6-4dcd-935a-13f93f5b2dcf.png)
 ![IMG_2790_iphone13promaxgraphite_portrait](https://user-images.githubusercontent.com/99027548/179419523-b4f9d769-ea72-4fe3-80ab-1752d804d2cb.png) 
-
-## ⚡ Technologies
-
-![Flutter](https://img.shields.io/badge/-Flutter-black?style=flat-square&logo=flutter)
-![Firebase](https://img.shields.io/badge/-Firebase-black?style=flat-square&logo=Firebase)
-![Algolia](https://img.shields.io/badge/-Algolia-black?style=flat-square&logo=Algolia)
-![JavaScript](https://img.shields.io/badge/-JavaScript-black?style=flat-square&logo=javascript)
-![Nodejs](https://img.shields.io/badge/-Nodejs-black?style=flat-square&logo=Node.js)
-![MongoDB](https://img.shields.io/badge/-MongoDB-black?style=flat-square&logo=mongodb)
-![Google Cloud](https://img.shields.io/badge/Google%20Cloud-black?style=flat-square&logo=google-cloud)

@@ -1,16 +1,23 @@
-# dayton_human_relations_council
+# Dayton Human Relations Council
 
-A new Flutter project.
+### The City of Dayton Human Relations Council accepts complaints of unlawful discrimination in housing, employment, credit transactions, and public accommodations. If you feel that you have been discriminated against in one of these areas based on one or more of the protected classes listed below, you may be eligible to file a complaint against the person or organization that discriminated against you.
 
-## Getting Started
+[![iOS Download](https://img.shields.io/badge/iOS%20Download-Click%20Here-blue?labelColor=black&style=for-the-badge&link=https://apps.apple.com/us/app/dayton-human-relations-council/id1552942651)](https://apps.apple.com/us/app/dayton-human-relations-council/id1552942651)
+[![Android Download](https://img.shields.io/badge/Android%20Download-Click%20Here-green?labelColor=black&style=for-the-badge&link=https://play.google.com/store/apps/details?id=com.io.dayton_human_relations_council&hl=en_US&gl=US)](https://play.google.com/store/apps/details?id=com.io.dayton_human_relations_council&hl=en_US&gl=US)
 
-This project is a starting point for a Flutter application.
+![IMG_2791_iphone13promaxgraphite_portrait](https://user-images.githubusercontent.com/99027548/179419524-4bb4679a-df03-4bf6-97bd-516fbf74e1cd.png)![IMG_2787_iphone13promaxgraphite_portrait](https://user-images.githubusercontent.com/99027548/179419519-620be69b-dc37-4f02-8cfe-4508b7bb3659.png)
+![IMG_2788_iphone13promaxgraphite_portrait](https://user-images.githubusercontent.com/99027548/179419521-9e04e114-ca57-4119-ac1f-8166adc87f0a.png)
+![IMG_2789_iphone13promaxgraphite_portrait](https://user-images.githubusercontent.com/99027548/179419522-abd74e54-cfa6-4dcd-935a-13f93f5b2dcf.png)
+![IMG_2790_iphone13promaxgraphite_portrait](https://user-images.githubusercontent.com/99027548/179419523-b4f9d769-ea72-4fe3-80ab-1752d804d2cb.png)
 
-A few resources to get you started if this is your first Flutter project:
+ 
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+## ⚡ Technologies
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+![Flutter](https://img.shields.io/badge/-Flutter-black?style=flat-square&logo=flutter)
+![Firebase](https://img.shields.io/badge/-Firebase-black?style=flat-square&logo=Firebase)
+![Algolia](https://img.shields.io/badge/-Algolia-black?style=flat-square&logo=Algolia)
+![JavaScript](https://img.shields.io/badge/-JavaScript-black?style=flat-square&logo=javascript)
+![Nodejs](https://img.shields.io/badge/-Nodejs-black?style=flat-square&logo=Node.js)
+![MongoDB](https://img.shields.io/badge/-MongoDB-black?style=flat-square&logo=mongodb)
+![Google Cloud](https://img.shields.io/badge/Google%20Cloud-black?style=flat-square&logo=google-cloud)

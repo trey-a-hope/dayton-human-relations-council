@@ -9,9 +9,7 @@
 ![IMG_2787_iphone13promaxgraphite_portrait](https://user-images.githubusercontent.com/99027548/179419519-620be69b-dc37-4f02-8cfe-4508b7bb3659.png)
 ![IMG_2788_iphone13promaxgraphite_portrait](https://user-images.githubusercontent.com/99027548/179419521-9e04e114-ca57-4119-ac1f-8166adc87f0a.png)
 ![IMG_2789_iphone13promaxgraphite_portrait](https://user-images.githubusercontent.com/99027548/179419522-abd74e54-cfa6-4dcd-935a-13f93f5b2dcf.png)
-![IMG_2790_iphone13promaxgraphite_portrait](https://user-images.githubusercontent.com/99027548/179419523-b4f9d769-ea72-4fe3-80ab-1752d804d2cb.png)
-
- 
+![IMG_2790_iphone13promaxgraphite_portrait](https://user-images.githubusercontent.com/99027548/179419523-b4f9d769-ea72-4fe3-80ab-1752d804d2cb.png) 
 
 ## ⚡ Technologies
 
